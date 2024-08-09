@@ -1,0 +1,98 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background-image: url('/2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .chat-container .messages {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    border: 2px solid hsl(288, 91%, 48%);
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: hsl(0, 2%, 51%);
+    margin-bottom: 20px;
+  }
+  
+  .chat-container .messages .message {
+    position: relative;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: hsl(0, 16%, 27%);
+    border-radius: 5px;
+    color: white;
+    text-align: left;
+  }
+  
+  .chat-container .messages .message .delete-btn {
+    position: absolute;
+    top: 10px; /* Ajusta según el espacio deseado desde el borde superior */
+    right: 10px; /* Ajusta según el espacio deseado desde el borde derecho */
+    background: transparent;
+    border: none;
+    color: hsl(0, 100%, 50%);
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .chat-container .messages .message .delete-btn:hover {
+    color: hsl(0, 100%, 70%);
+  }
+  
+  .chat-container .input-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .chat-container .input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid hsl(288, 91%, 48%);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .chat-container .input-container button {
+    padding: 10px 20px;
+    border: 2px solid hsl(288, 91%, 48%);
+    border-radius: 5px;
+    background-color: hsl(0, 2%, 51%);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+  }
+  
+  .chat-container .input-container button:hover {
+    background-color: hsl(0, 16%, 27%);
+    box-shadow: 0 0 5px rgba(161, 168, 146, 0.5); /* Sombra verde claro */
+  }
+  
+  @media (max-width: 768px) {
+    .chat-container .messages {
+      height: 200px;
+      box-shadow: 0 0 10px rgba(230, 216, 132, 0.5); /* Sombra amarilla */
+    }
+  
+    .chat-container .input-container input {
+      font-size: 14px;
+    }
+  
+    .chat-container .input-container button {
+      font-size: 14px;
+    }
+  }
