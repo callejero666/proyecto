@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Chat } from './componentes/Chat';
 import { Login } from './componentes/Login';
-import { Musica } from './componentes/Musica';
+//import { Musica } from './componentes/Musica';
 import { Navbar } from './componentes/Navbar';
 import { NotFound } from './componentes/NotFound';
 import { Perfil } from './componentes/Perfil';
