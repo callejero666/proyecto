@@ -26,7 +26,7 @@ export function Perfil() {
     useEffect(() => {
         async function fetchProfile() {
             try {
-                const response = await fetch("https://sandbox.academiadevelopers.com/users/profiles/profile_data/", {
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/profiles/profile_data/`, {
                     method: "GET",
                     headers: {
                         Authorization: `Token ${state.token}`
@@ -61,7 +61,7 @@ export function Perfil() {
     useEffect(() => {
         async function fetchStates() {
             try {
-                const response = await fetch("https://sandbox.academiadevelopers.com/users/user-states/", {
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/user-states/`, {
                     headers: {
                         "Authorization": `Token ${state.token}`
                     }
@@ -100,7 +100,7 @@ export function Perfil() {
                 state: parseInt(profile.state, 10)
             };
 
-            const response = await fetch(`https://sandbox.academiadevelopers.com/users/profiles/${profile.user_id}/`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/profiles/${profile.user_id}/`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
