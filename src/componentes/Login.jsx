@@ -1,49 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import './Login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import { useAuth } from "../contexts/AuthContext";
+import "./Login.css";
 
-function Login() {
+export function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isError, setIsError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
-    const { login } = useAuth();
+    const [{ data, isError, isLoading }, doFetch] = useFetch(
+        `${import.meta.env.VITE_API_BASE_URL}api-auth/`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        }
+    );
+
+    const { actions } = useAuth();
     const navigate = useNavigate();
 
     function handleSubmit(event) {
         event.preventDefault();
-        if (!isLoading) {
-            setIsLoading(true);
-            fetch(`${import.meta.env.VITE_API_BASE_URL}api-auth/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                }),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("No se pudo iniciar sesión");
-                    }
-                    return response.json();
-                })
-                .then((responseData) => {
-                    login(responseData.token);
-                    navigate("/principal");
-                })
-                .catch((error) => {
-                    console.error("Error al iniciar sesión", error);
-                    setIsError(true);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }
+        doFetch();
     }
 
     function handleChange(event) {
@@ -51,6 +32,13 @@ function Login() {
         if (name === "username") setUsername(value);
         if (name === "password") setPassword(value);
     }
+
+    React.useEffect(() => {
+        if (data && !isError) {
+            actions.login(data);
+            navigate("/principal");
+        }
+    }, [data, isError, actions, navigate]);
 
     return (
         <section className="login-section">
