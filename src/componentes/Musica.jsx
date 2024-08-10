@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -10,17 +10,18 @@ export function Musica() {
     const [playing, setPlaying] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filters, setFilters] = useState({
+    const [searchQuery, setSearchQuery] = useState({
         title: '',
+        artist: '',
         album: '',
-        artists: '',
-        genres: '',
         year: '',
-        page: 1,
-        page_size: 10
+        genre: ''
     });
     const [playlists, setPlaylists] = useState([]);
     const [newPlaylistName, setNewPlaylistName] = useState('');
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const playerRef = useRef(null);
     const { state } = useAuth();
     const navigate = useNavigate();
@@ -29,35 +30,6 @@ export function Musica() {
         if (!state.isAuthenticated) {
             navigate('/login');
             return;
-        }
-
-        async function fetchSongs() {
-            try {
-                const queryParams = new URLSearchParams(
-                    Object.fromEntries(
-                        Object.entries(filters).filter(([_, value]) => value)
-                    )
-                ).toString();
-
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?${queryParams}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Token ${state.token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setSongs(data.results);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
         }
 
         async function fetchPlaylists() {
@@ -81,9 +53,75 @@ export function Musica() {
             }
         }
 
-        fetchSongs();
         fetchPlaylists();
-    }, [state.isAuthenticated, state.token, navigate, filters]);
+    }, [state.isAuthenticated, state.token, navigate]);
+
+    const fetchSongs = async (queryParams) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?${queryParams}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${state.token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setSongs(data.results);
+            setTotalPages(Math.ceil(data.count / 10)); // Assuming the API returns a count of total songs
+        } catch (error) {
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (state.isAuthenticated) {
+            fetchSongs('');
+        }
+    }, [state.isAuthenticated, state.token, navigate]);
+
+    const handleSearch = () => {
+        setLoading(true);
+        setCurrentPage(1); // Reset page to 1 when search query changes
+        const queryParams = new URLSearchParams(
+            Object.fromEntries(
+                Object.entries(searchQuery).filter(([_, value]) => value)
+            )
+        ).toString();
+        fetchSongs(queryParams);
+    };
+
+    const handlePlayPlaylist = async (playlistId) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/playlists/${playlistId}/songs/`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${state.token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setSongs(data.results);
+            setCurrentSong(data.results[0]);
+            setPlaying(true);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handlePlay = (song) => {
         setCurrentSong(song);
@@ -192,20 +230,27 @@ export function Musica() {
         }
     };
 
-    const handleFilterChange = (e) => {
+    const handleSearchChange = (e) => {
         const { name, value } = e.target;
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [name]: value,
-            page: 1 // Reset pagination when filters change
+        setSearchQuery(prevQuery => ({
+            ...prevQuery,
+            [name]: value
         }));
     };
 
+    const handlePlaylistSelect = (e) => {
+        setSelectedPlaylistId(e.target.value);
+    };
+
     const handlePageChange = (direction) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            page: prevFilters.page + direction
-        }));
+        setCurrentPage(prevPage => prevPage + direction);
+        setLoading(true);
+        const queryParams = new URLSearchParams({
+            ...searchQuery,
+            page: currentPage + direction,
+            page_size: 10
+        }).toString();
+        fetchSongs(queryParams);
     };
 
     if (loading) return <p>Cargando canciones...</p>;
@@ -215,42 +260,80 @@ export function Musica() {
         <section className="music-section">
             <h1>Music Page</h1>
 
-            <div className="filters">
+            {currentSong && (
+                <div className="player-controls neon-player">
+                    <ReactPlayer
+                        ref={playerRef}
+                        url={currentSong.song_file}
+                        playing={playing}
+                        controls={false}
+                        width="100%"
+                        height="50px"
+                        onEnded={() => {
+                            const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+                            if (currentIndex < songs.length - 1) {
+                                setCurrentSong(songs[currentIndex + 1]);
+                            } else {
+                                setPlaying(false);
+                                setCurrentSong(null);
+                            }
+                        }}
+                    />
+                    <div className="controls">
+                        <button onClick={() => setPlaying(true)}>Play</button>
+                        <button onClick={handlePause}>Pause</button>
+                        <button onClick={handleStop}>Stop</button>
+                    </div>
+                </div>
+            )}
+
+            <div className="search-bar">
                 <input
                     type="text"
                     name="title"
                     placeholder="Título"
-                    value={filters.title}
-                    onChange={handleFilterChange}
+                    value={searchQuery.title}
+                    onChange={handleSearchChange}
+                />
+                <input
+                    type="text"
+                    name="artist"
+                    placeholder="Artista"
+                    value={searchQuery.artist}
+                    onChange={handleSearchChange}
                 />
                 <input
                     type="text"
                     name="album"
                     placeholder="Álbum"
-                    value={filters.album}
-                    onChange={handleFilterChange}
+                    value={searchQuery.album}
+                    onChange={handleSearchChange}
                 />
                 <input
                     type="text"
-                    name="artists"
-                    placeholder="Artistas"
-                    value={filters.artists}
-                    onChange={handleFilterChange}
-                />
-                <input
-                    type="text"
-                    name="genres"
-                    placeholder="Géneros"
-                    value={filters.genres}
-                    onChange={handleFilterChange}
-                />
-                <input
-                    type="number"
                     name="year"
                     placeholder="Año"
-                    value={filters.year}
-                    onChange={handleFilterChange}
+                    value={searchQuery.year}
+                    onChange={handleSearchChange}
                 />
+                <input
+                    type="text"
+                    name="genre"
+                    placeholder="Género"
+                    value={searchQuery.genre}
+                    onChange={handleSearchChange}
+                />
+                <button onClick={handleSearch}>Buscar</button>
+            </div>
+
+            <div className="playlist-selection">
+                <select value={selectedPlaylistId} onChange={handlePlaylistSelect}>
+                    <option value="">Selecciona una lista de reproducción</option>
+                    {playlists.map(playlist => (
+                        <option key={playlist.id} value={playlist.id}>{playlist.name}</option>
+                    ))}
+                </select>
+                <button onClick={() => handlePlayPlaylist(selectedPlaylistId)} disabled={!selectedPlaylistId}>Reproducir Lista</button>
             </div>
 
             <div className="playlist-creation">
@@ -267,40 +350,22 @@ export function Musica() {
                 {songs.map((song) => (
                     <div key={song.id} className="song-item">
                         <span onClick={() => handlePlay(song)}>{song.title}</span>
-                        <button onClick={() => handleAddToPlaylist(selectedPlaylistId, song.id)}>Agregar a la lista</button>
-                        <button onClick={() => handleRemoveFromPlaylist(selectedPlaylistId, song.id)}>Eliminar de la lista</button>
+                        <button onClick={() => handleAddToPlaylist(selectedPlaylistId, song.id)} disabled={!selectedPlaylistId}>Agregar a la lista</button>
+                        <button onClick={() => handleRemoveFromPlaylist(selectedPlaylistId, song.id)} disabled={!selectedPlaylistId}>Eliminar de la lista</button>
                         <button onClick={() => handleDeleteSong(song.id)}>Eliminar</button>
                     </div>
                 ))}
             </div>
 
-            {currentSong && (
-                <div className="player-controls">
-                    <ReactPlayer
-                        ref={playerRef}
-                        url={currentSong.song_file}
-                        playing={playing}
-                        controls={false}
-                        width="100%"
-                        height="50px"
-                    />
-                    <div className="controls">
-                        <button onClick={() => setPlaying(true)}>Play</button>
-                        <button onClick={handlePause}>Pause</button>
-                        <button onClick={handleStop}>Stop</button>
-                    </div>
-                </div>
-            )}
-
             <div className="pagination">
                 <button
                     onClick={() => handlePageChange(-1)}
-                    disabled={filters.page === 1}
+                    disabled={currentPage === 1}
                 >
                     Anterior
                 </button>
-                <span>Página {filters.page}</span>
-                <button onClick={() => handlePageChange(1)}>Siguiente</button>
+                <span>Página {currentPage} de {totalPages}</span>
+                <button onClick={() => handlePageChange(1)} disabled={currentPage === totalPages}>Siguiente</button>
             </div>
         </section>
     );
