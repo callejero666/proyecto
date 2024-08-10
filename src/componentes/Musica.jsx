@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Musica.css';
 
+
 export function Musica() {
     const [songs, setSongs] = useState([]);
     const [currentSong, setCurrentSong] = useState(null);
@@ -13,7 +14,7 @@ export function Musica() {
     const [searchQuery, setSearchQuery] = useState({
         title: '',
         artist: '',
-        album: '',
+        album: '', 
         year: '',
         genre: ''
     });
