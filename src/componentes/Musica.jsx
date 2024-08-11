@@ -1,95 +1,171 @@
-import React, { useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import './Musica.css';
+import React, { useEffect, useState, useRef } from "react";
+import SongCard from "./SongCard";
+import { useAuth } from "../contexts/AuthContext";
 
-
-export function Musica() {
+function SongList() {
+    const [page, setPage] = useState(1);
     const [songs, setSongs] = useState([]);
-    const [currentSong, setCurrentSong] = useState(null);
-    const { state } = useAuth();
-    const navigate = useNavigate();
+    const [nextUrl, setNextUrl] = useState(null);
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [filters, setFilters] = useState({});
 
-    const [{ data: songsData, isError: songsError, isLoading: songsLoading }, doFetchSongs] = useFetch(
-        "/harmonyhub/songs/",
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
-    );
+    const { user__id } = useAuth("state");
 
-    useEffect(() => {
-        if (!state.isAuthenticated) {
-            navigate('/login');
-        } else {
-            doFetchSongs();
-        }
-    }, [state.isAuthenticated, navigate, doFetchSongs]);
+    const observerRef = useRef();
+    const lastSongElementRef = useRef();
 
-    useEffect(() => {
-        if (songsData && Array.isArray(songsData)) {
-            setSongs(songsData);
-        }
-    }, [songsData]);
+    const doFetch = async () => {
+        setIsLoading(true);
+        let query = new URLSearchParams({
+            page: page,
+            page_size: 5,
+            ordering: `-created_at`,
+            ...filters,
+        }).toString();
 
-    const handlePlay = (song) => {
-        setCurrentSong(song);
-        setPlaying(true);
-    };
-
-    const handlePause = () => {
-        setPlaying(false);
-    };
-
-    const handleStop = () => {
-        setPlaying(false);
-        setCurrentSong(null);
-    };
-
-    const handleDeleteSong = async (songId) => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/${songId}/`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Token ${state.token}`,
-                },
+        fetch(
+            `${import.meta.env.VITE_API_BASE_URL}harmonyhub/songs/?${query}`,
+            {}
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.results) {
+                    setSongs((prevSongs) => [...prevSongs, ...data.results]);
+                    setNextUrl(data.next);
+                }
+            })
+            .catch(() => {
+                setIsError(true);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            setSongs(songs.filter(song => song.id !== songId));
-        } catch (error) {
-            setError(error);
-            alert("Error al eliminar la canción. Inténtalo de nuevo.");
-        }
     };
+
+    useEffect(() => {
+        doFetch();
+    }, [page, filters]);
+
+    useEffect(() => {
+        // Si la petición esta en proceso no creamos observador
+        if (isLoading) return;
+
+        // Si hay otro observador definido lo desuscribimos
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
+
+        // Creamos y referenciamos el observador de tarjetas actual
+        observerRef.current = new IntersectionObserver((cards) => {
+            // Observamos todas las tarjetas de la nueva página cargada
+            if (cards[0].isIntersecting && nextUrl) {
+                setPage((prevPage) => prevPage + 1);
+            }
+        });
+
+        // Actualizamos la referencia al última tarjeta
+        if (lastSongElementRef.current) {
+            observerRef.current.observe(lastSongElementRef.current);
+        }
+    }, [isLoading, nextUrl]);
+
+    function handleSearch(event) {
+        event.preventDefault();
+
+        const searchForm = new FormData(event.target);
+
+        const newFilters = {};
+
+        searchForm.forEach((value, key) => {
+            if (value) {
+                newFilters[key] = value;
+            }
+        });
+
+        setFilters(newFilters);
+        setSongs([]);
+        setPage(1);
+    }
+
+    if (isError) return <p>Error al cargar las canciones.</p>;
+    if (!songs.length && !isLoading) return <p>No hay canciones disponibles</p>;
 
     return (
-        <section className="music-section">
-            <h1>Music Page</h1>
-            <div className="song-list">
-                {songs.map((song) => (
-                    <div key={song.id} className="song-item">
-                        <span onClick={() => handlePlay(song)}>{song.title}</span>
-                        <button onClick={() => handleDeleteSong(song.id)}>Delete</button>
+        <div>
+            <div className="my-5">
+                <h2 className="title">Lista de Canciones</h2>
+                <form className="box" onSubmit={handleSearch}>
+                    <div className="field">
+                        <label className="label">Título:</label>
+                        <div className="control">
+                            <input className="input" type="text" name="title" />
+                        </div>
                     </div>
-                ))}
+                    <div className="field">
+                        <label className="label">Artista:</label>
+                        <div className="control">
+                            <input
+                                className="input"
+                                type="number"
+                                name="artists"
+                            />
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label className="label">Fecha de inicio:</label>
+                        <div className="control">
+                            <input
+                                className="input"
+                                type="datetime-local"
+                                name="created_at_min"
+                            />
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label className="label">Fecha de fin:</label>
+                        <div className="control">
+                            <input
+                                className="input"
+                                type="datetime-local"
+                                name="created_at_max"
+                            />
+                        </div>
+                    </div>
+                    <div className="field">
+                        <button className="button is-primary" type="submit">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+                <ul>
+                    {songs.map((song, index) => {
+                        if (songs.length === index + 1) {
+                            return (
+                                <div
+                                    key={song.id}
+                                    ref={lastSongElementRef}
+                                    className="column is-two-thirds"
+                                >
+                                    <SongCard song={song} user_ID={user__id} />
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div
+                                    key={song.id}
+                                    className="column is-two-thirds"
+                                >
+                                    <SongCard song={song} user_ID={user__id} />
+                                </div>
+                            );
+                        }
+                    })}
+                </ul>
+                {isLoading && <p>Cargando más canciones...</p>}
             </div>
-            {currentSong && (
-                <ReactPlayer
-                    url={currentSong.url}
-                    playing={true}
-                    controls={true}
-                    width="100%"
-                    height="50px"
-                />
-            )}
-        </section>
+        </div>
     );
 }
+
+export default SongList;
