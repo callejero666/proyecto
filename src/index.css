@@ -1,97 +1,97 @@
 :root {
-    margin: 0;
-    font-family: "Open Sans", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-  
-    color-scheme: light dark;
-    color: #09dd1a;
-    background-color: #242424;
-  
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  html, body, #root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    display: flex;
-    flex-direction: column;
-    min-width: 320px;
-    background-color: inherit; /* Heredar el fondo del :root */
-    background-image: url('/nosotros-banner.jpg'); /* Asegúrate de usar la ruta correcta */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    font-family:  "Open Sans", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-    
-  }
-  
-  body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Color negro con 50% de opacidad */
-    pointer-events: none; /* Para que no interfiera con la interacción del usuario */
-  }
-  
-  
-  a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-  }
-  a:hover {
-    color: #535bf2;
-  }
-  
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-    text-decoration: underline red;
-  }
-  
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
+  margin: 0;
+  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  line-height: 1.5;
+  font-weight: 700; /* Aplica negrita a todo el texto */
+
+  color-scheme: light dark;
+  color: #09dd1a;
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  background-color: inherit; /* Heredar el fondo del :root */
+  background-image: url('/nosotros-banner.jpg'); /* Asegúrate de usar la ruta correcta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  font-weight: 700; /* Aplica negrita a todo el texto */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Color negro con 40% de opacidad */
+  pointer-events: none; /* Para que no interfiera con la interacción del usuario */
+}
+
+a {
+  font-weight: 700; /* Aplica negrita a los enlaces */
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  text-decoration: underline rgb(183, 0, 255);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 700; /* Aplica negrita a los botones */
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
       color: #213547;
       background-color: #080808;
-    }
-    a:hover {
-      color: #747bff;
-    }
-    button {
-      background-color: #f9f9f9;
-    }
-    
   }
-  
+
+  a:hover {
+      color: #747bff;
+  }
+
+  button {
+      background-color: #f9f9f9;
+  }
+}

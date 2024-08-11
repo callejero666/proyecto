@@ -42,7 +42,8 @@ export function Login() {
 
     return (
         <section className="login-section">
-            <h1>Iniciar Sesión</h1>
+            <h1 className="app-title">LO QUE QUIERAS</h1> {/* Añadir el h1 con el nombre de la app */}
+            <h2>Iniciar Sesión</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="username">Nombre de usuario:</label>
