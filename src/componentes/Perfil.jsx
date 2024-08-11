@@ -4,9 +4,10 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Perfil.css";
 
 export function Perfil() {
-    const { state } = useAuth();
-    const navigate = useNavigate();
+    const { state } = useAuth(); // Obtiene el estado de autenticación
+    const navigate = useNavigate(); // Hook para navegar a otras rutas
 
+    // Estados para el perfil, lista de estados, carga, error y éxito
     const [profile, setProfile] = useState({
         user_id: "",
         username: "",
@@ -22,7 +23,7 @@ export function Perfil() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
-    // Fetch the user's profile data
+    // Fetch de los datos del perfil del usuario
     useEffect(() => {
         async function fetchProfile() {
             try {
@@ -57,7 +58,7 @@ export function Perfil() {
         fetchProfile();
     }, [state.token]);
 
-    // Fetch the list of user states
+    // Fetch de la lista de estados de usuario
     useEffect(() => {
         async function fetchStates() {
             try {
@@ -79,6 +80,7 @@ export function Perfil() {
         fetchStates();
     }, [state.token]);
 
+    // Maneja los cambios en los campos del formulario
     function handleChange(event) {
         const { name, value } = event.target;
         setProfile(prevProfile => ({
@@ -87,8 +89,9 @@ export function Perfil() {
         }));
     }
 
+    // Maneja el envío del formulario para actualizar el perfil
     async function handleSubmit(event) {
-        event.preventDefault();
+        event.preventDefault(); // Evita el envío del formulario por defecto
         try {
             const updatedProfile = {
                 username: profile.username,
@@ -125,13 +128,14 @@ export function Perfil() {
         }
     }
 
-    if (loading) return <p>Cargando...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    if (loading) return <p>Cargando...</p>; // Muestra mensaje mientras carga
+    if (error) return <p>Error: {error.message}</p>; // Muestra mensaje de error
 
     return (
         <div className="perfil-container">
             <h1>Actualizar Perfil</h1>
             <form onSubmit={handleSubmit}>
+                {/* Campos del formulario para actualizar el perfil */}
                 <div className="form-group">
                     <label htmlFor="username">Nombre de usuario:</label>
                     <input
@@ -220,5 +224,6 @@ export function Perfil() {
 }
 
 export default Perfil;
+
 
 

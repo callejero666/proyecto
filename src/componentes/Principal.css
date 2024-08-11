@@ -1,56 +1,61 @@
+/* Estilo principal para la sección del componente */
 .principal-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
+  display: flex; /* Usa Flexbox para el diseño */
+  flex-direction: column; /* Organiza los elementos en una columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  justify-content: center; /* Centra los elementos verticalmente */
+  height: 100%; /* Ocupa toda la altura disponible */
+  text-align: center; /* Centra el texto */
+  padding: 20px; /* Espaciado interno */
+  box-sizing: border-box; /* Incluye padding en el ancho total */
+}
+
+/* Estilo para el título principal */
+.principal-section h1 {
+  font-size: 120px; /* Tamaño del texto */
+  margin-bottom: 20px; /* Espaciado inferior */
+  text-decoration: underline; /* Subraya el texto */
+  color: #f00cb3; /* Color del texto */
+}
+
+/* Contenedor de los botones */
+.button-container {
+  display: flex; /* Usa Flexbox para el diseño */
+  gap: 20px; /* Espaciado entre los botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+  margin-top: 30px; /* Espaciado superior */
+}
+
+/* Estilo para los botones dentro del contenedor */
+.button-container button {
+  width: 150px; /* Ancho del botón */
+  height: 150px; /* Altura del botón */
+  font-size: 28px; /* Tamaño del texto en el botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  border: 2px solid #A1A892; /* Borde del botón */
+  border-radius: 10px; /* Esquinas redondeadas */
+  display: flex; /* Usa Flexbox para alinear el contenido */
+  align-items: center; /* Centra el contenido verticalmente */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  text-align: center; /* Centra el texto */
+  background-color: #E6D884; /* Color de fondo del botón */
+  transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
+  text-decoration: underline #2F242C; /* Subrayado del texto con color */
+  color: #0a0a0a; /* Color del texto */
+}
+
+/* Estilo para el botón cuando se pasa el cursor sobre él */
+.button-container button:hover {
+  background-color: #A1A892; /* Cambia el color de fondo en hover */
+}
+
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
   .principal-section h1 {
-    font-size: 120px;
-    margin-bottom: 20px;
-    text-decoration: underline;
-    color: #f00cb3;
+      font-size: 20px; /* Ajusta el tamaño del texto en pantallas pequeñas */
   }
-  
   .button-container {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
+      flex-direction: column; /* Cambia la dirección de los botones a columna */
+      gap: 10px; /* Reduce el espaciado entre los botones */
   }
-  
-  .button-container button {
-    width: 150px;
-    height: 150px;
-    font-size: 28px;
-    cursor: pointer;
-    border: 2px solid #A1A892;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: #E6D884;
-    transition: background-color 0.3s ease;
-    text-decoration: underline #2F242C;
-    color: #0a0a0a;
-  }
-  
-  .button-container button:hover {
-    background-color: #A1A892;
-  }
-  
-  @media (max-width: 768px) {
-    .principal-section h1 {
-      font-size: 20px;
-    }
-    .button-container {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
-  
+}

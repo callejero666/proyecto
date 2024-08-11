@@ -1,20 +1,23 @@
+/* Estilos para la barra de navegación */
 .navbar {
-    background-color: #2F242C;
-    overflow: hidden;
-    display: flex;
-    position: relative;
+    background-color: #2F242C; /* Color de fondo de la barra de navegación */
+    overflow: hidden; /* Evita que los elementos se desborden */
+    display: flex; /* Usa flexbox para alinear los elementos */
+    position: relative; /* Posiciona la barra de navegación en relación con su contenedor */
 }
 
+/* Estilos para los enlaces dentro de la barra de navegación */
 .navbar a {
-    display: block;
-    color: #E5E5E5;
-    text-align: center;
-    padding: 15px 16px;
-    text-decoration: none;
-    text-decoration: underline #A1A892;
+    display: block; /* Hace que el enlace sea un bloque para que ocupe toda el área de padding */
+    color: #E5E5E5; /* Color del texto de los enlaces */
+    text-align: center; /* Centra el texto dentro del enlace */
+    padding: 15px 16px; /* Espaciado interno alrededor del texto del enlace */
+    text-decoration: none; /* Elimina el subrayado por defecto de los enlaces */
+    text-decoration: underline #A1A892; /* Añade un subrayado con color personalizado */
 }
 
+/* Estilos para los enlaces cuando se pasa el ratón sobre ellos */
 .navbar a:hover {
-    background-color: #E6D884;
-    color: #2F242C;
+    background-color: #E6D884; /* Color de fondo cuando el ratón está sobre el enlace */
+    color: #2F242C; /* Color del texto cuando el ratón está sobre el enlace */
 }
