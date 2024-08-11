@@ -1,24 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
 
 export function Navbar() {
     const { state, actions } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (state.isAuthenticated && location.pathname === '/login') {
+            navigate('/principal'); // Redirige a la página principal después de iniciar sesión
+        }
+    }, [state.isAuthenticated, navigate, location.pathname]);
 
     return (
         <nav className="navbar">
-            <Link to="/">Inicio</Link>
             {state.isAuthenticated ? (
                 <>
-                    <Link to="/Musica">Musica</Link>
-                    <Link to="/Chat">Chat</Link>
+                    <Link to="/principal">Inicio</Link>
+                    <Link to="/musica">Música</Link>
+                    <Link to="/chat">Chat</Link>
                     <Link to="/perfil">Perfil</Link>
-                    
                 </>
             ) : (
                 <>
-                    <Link to="/login">Iniciar Sesión</Link>
+                    {location.pathname !== '/login' && <Link to="/login">Iniciar Sesión</Link>}
                     <Link to="/registro">Registro</Link>
                 </>
             )}
