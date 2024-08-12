@@ -1,50 +1,42 @@
-/* Contenedor principal del perfil */
 .profile-container {
-  max-width: 600px; /* Ancho máximo del contenedor */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-  padding: 20px; /* Espaciado interno del contenedor */
-  border: 1px solid #ccc; /* Borde del contenedor */
-  border-radius: 5px; /* Esquinas redondeadas */
-  background-color: #f9f9f9; /* Color de fondo */
-}
-
-/* Espaciado inferior para cada grupo de formulario */
-.form-group {
-  margin-bottom: 15px; /* Espaciado inferior */
-}
-
-/* Estilos para las etiquetas de los campos de formulario */
-.form-group label {
-  display: block; /* Muestra la etiqueta como un bloque */
-  margin-bottom: 5px; /* Espaciado inferior */
-}
-
-/* Estilos para los campos de entrada y áreas de texto */
-.form-group input,
-.form-group textarea {
-  width: 100%; /* Ocupa el 100% del ancho del contenedor */
-  padding: 8px; /* Espaciado interno */
-  box-sizing: border-box; /* Incluye el padding en el ancho total */
-}
-
-/* Estilos para los botones */
-button {
-  padding: 10px 15px; /* Espaciado interno del botón */
-  background-color: #007bff; /* Color de fondo del botón */
-  color: white; /* Color del texto del botón */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Esquinas redondeadas del botón */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-}
-
-/* Estilos para el botón deshabilitado */
-button:disabled {
-  background-color: #ccc; /* Color de fondo para el botón deshabilitado */
-}
-
-/* Estilos para los mensajes de error */
-.error-message {
-  color: red; /* Color del texto del mensaje de error */
-}
-
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  .error-message {
+    color: red;
+  }
   

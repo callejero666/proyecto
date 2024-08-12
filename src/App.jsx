@@ -17,24 +17,25 @@ function AppContent() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token && !state.isAuthenticated) {
-            actions.login({ token }); // Inicia sesión con el token
+            // Aquí podrías hacer una llamada a la API para validar el token y obtener los datos del usuario
+            actions.login({ token });
         } else if (!state.isAuthenticated) {
-            navigate('/login'); // Redirige a login si no está autenticado
+            navigate('/login'); // Redirige a la página de inicio de sesión si no está autenticado
         }
     }, [state.isAuthenticated, actions, navigate]);
 
     return (
         <>
-            <Navbar /> {/* Muestra la barra de navegación */}
+            <Navbar />
             <Routes>
-                <Route path="/" element={<Login />} /> {/* Página principal: Login */}
+                <Route path="/" element={<Login />} /> {/* Cambiado para que Login sea la ruta principal */}
                 <Route path="/principal" element={<Principal />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registro" element={<Registro />} />
                 <Route path="/chat" element={<Chat />} />
                 <Route path="/musica" element={<Musica />} />
                 <Route path="/perfil" element={<Perfil />} />
-                <Route path="*" element={<NotFound />} /> {/* Página para rutas no encontradas */}
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     );
@@ -43,7 +44,7 @@ function AppContent() {
 function App() {
     return (
         <Router>
-            <AuthProvider> {/* Provee contexto de autenticación */}
+            <AuthProvider>
                 <AppContent />
             </AuthProvider>
         </Router>
@@ -51,4 +52,3 @@ function App() {
 }
 
 export default App;
-

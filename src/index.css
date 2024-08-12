@@ -1,96 +1,97 @@
-/* Variables globales */
 :root {
   margin: 0;
-  font-family: "Baskerville", serif; /* Fuente serif Baskerville para toda la aplicación */
-  line-height: 1.5; /* Espaciado entre líneas */
-  font-weight: 700; /* Texto en negrita por defecto */
-  color-scheme: light dark; /* Soporte para temas claros y oscuros */
-  color: #09dd1a; /* Color de texto principal */
-  background-color: #242424; /* Color de fondo principal */
-  font-synthesis: none; /* Evita la síntesis de fuentes */
-  text-rendering: optimizeLegibility; /* Mejora la legibilidad del texto */
-  -webkit-font-smoothing: antialiased; /* Suaviza las fuentes en WebKit */
-  -moz-osx-font-smoothing: grayscale; /* Suaviza las fuentes en Firefox para macOS */
+  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  line-height: 1.5;
+  font-weight: 700; /* Aplica negrita a todo el texto */
+
+  color-scheme: light dark;
+  color: #09dd1a;
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body, #root {
-  height: 100%; /* Asegura que el contenido ocupe el 100% de la altura */
-  margin: 0; /* Elimina márgenes predeterminados */
-  padding: 0; /* Elimina rellenos predeterminados */
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  display: flex; /* Usa Flexbox para el diseño */
-  flex-direction: column; /* Alinea los elementos en una columna */
-  min-width: 320px; /* Ancho mínimo para el cuerpo */
-  background-color: inherit; /* Hereda el fondo del :root */
-  background-image: url('/nosotros-banner.jpg'); /* Imagen de fondo */
-  background-size: cover; /* Ajusta la imagen para cubrir el área */
-  background-position: center; /* Centra la imagen de fondo */
-  background-repeat: no-repeat; /* No repite la imagen de fondo */
-  font-family: "Baskerville", serif; /* Fuente serif Baskerville */
-  font-weight: 700; /* Texto en negrita por defecto */
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  background-color: inherit; /* Heredar el fondo del :root */
+  background-image: url('/nosotros-banner.jpg'); /* Asegúrate de usar la ruta correcta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  font-weight: 700; /* Aplica negrita a todo el texto */
 }
 
 body::before {
-  content: ""; /* Crea un pseudo-elemento */
-  position: absolute; /* Posiciona el pseudo-elemento */
+  content: "";
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Filtro negro con opacidad del 40% */
-  pointer-events: none; /* No permite la interacción con el pseudo-elemento */
+  background: rgba(0, 0, 0, 0.4); /* Color negro con 40% de opacidad */
+  pointer-events: none; /* Para que no interfiera con la interacción del usuario */
 }
 
 a {
-  font-weight: 700; /* Enlaces en negrita */
-  color: #646cff; /* Color principal de los enlaces */
-  text-decoration: inherit; /* Hereda el estilo de decoración del texto */
+  font-weight: 700; /* Aplica negrita a los enlaces */
+  color: #646cff;
+  text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2; /* Color de los enlaces al pasar el ratón */
+  color: #535bf2;
 }
 
 h1 {
-  font-size: 3.2em; /* Tamaño de fuente grande para los encabezados */
-  line-height: 1.1; /* Espaciado entre líneas reducido */
-  text-decoration: underline rgb(183, 0, 255); /* Subrayado con color específico */
+  font-size: 3.2em;
+  line-height: 1.1;
+  text-decoration: underline rgb(183, 0, 255);
 }
 
 button {
-  border-radius: 8px; /* Bordes redondeados */
-  border: 1px solid transparent; /* Borde transparente por defecto */
-  padding: 0.6em 1.2em; /* Relleno dentro del botón */
-  font-size: 1em; /* Tamaño de fuente para el botón */
-  font-weight: 700; /* Texto en negrita en el botón */
-  font-family: inherit; /* Hereda la fuente del elemento padre */
-  background-color: #1a1a1a; /* Color de fondo del botón */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
-  transition: border-color 0.25s; /* Transición suave para el borde */
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 700; /* Aplica negrita a los botones */
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
 }
 
 button:hover {
-  border-color: #646cff; /* Color del borde al pasar el ratón */
+  border-color: #646cff;
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color; /* Estilo del borde de enfoque */
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-      color: #213547; /* Color de texto en modo claro */
-      background-color: #080808; /* Color de fondo en modo claro */
+      color: #213547;
+      background-color: #080808;
   }
 
   a:hover {
-      color: #747bff; /* Color de los enlaces al pasar el ratón en modo claro */
+      color: #747bff;
   }
 
   button {
-      background-color: #f9f9f9; /* Color de fondo del botón en modo claro */
+      background-color: #f9f9f9;
   }
 }

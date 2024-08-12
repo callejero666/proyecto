@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import './Registro.css';
 
 export function Registro() {
-    const [username, setUsername] = useState(''); // Estado para el nombre de usuario
-    const [email, setEmail] = useState(''); // Estado para el email
-    const [password, setPassword] = useState(''); // Estado para la contraseña
-    const navigate = useNavigate(); // Hook para navegar a otras rutas
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleRegistro = (e) => {
-        e.preventDefault(); // Evita el envío del formulario
-        // Aquí se debe implementar la lógica para registrar al usuario
+        e.preventDefault();
+        // Implementar lógica para registro aquí
         console.log('Registro:', { username, email, password });
-        navigate('/login'); // Redirige a la página de login después del registro
+        navigate('/login');
     };
 
     return (

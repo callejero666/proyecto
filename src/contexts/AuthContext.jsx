@@ -1,20 +1,17 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// Crea un contexto para la autenticación
 const AuthContext = createContext({
     state: {},
     actions: {},
 });
 
-// Define las acciones disponibles en el contexto
 const ACTIONS = {
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     UPDATE_PROFILE: 'UPDATE_PROFILE',
 };
 
-// Función reductora para manejar las acciones de autenticación
 function reducer(state, action) {
     switch (action.type) {
         case ACTIONS.LOGIN:
@@ -45,9 +42,7 @@ function reducer(state, action) {
     }
 }
 
-// Proveedor del contexto de autenticación
 export function AuthProvider({ children }) {
-    // Estado inicial del contexto con useReducer
     const [state, dispatch] = useReducer(reducer, {
         isAuthenticated: false,
         token: localStorage.getItem('token'),
@@ -63,13 +58,11 @@ export function AuthProvider({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Acciones disponibles en el contexto
     const actions = {
         login: (userData) => {
             if (!state.isAuthenticated) {
                 localStorage.setItem('token', userData.token);
                 dispatch({ type: ACTIONS.LOGIN, payload: userData });
-                // Redirige al usuario a la ubicación original o a la página principal
                 const origin = location.state?.from?.pathname || '/';
                 navigate(origin);
             }
@@ -84,7 +77,6 @@ export function AuthProvider({ children }) {
         },
     };
 
-    // Proporciona el estado y las acciones a los componentes hijos
     return (
         <AuthContext.Provider value={{ state, actions }}>
             {children}
@@ -92,7 +84,6 @@ export function AuthProvider({ children }) {
     );
 }
 
-// Hook personalizado para usar el contexto de autenticación
 export function useAuth() {
     const context = useContext(AuthContext);
     if (context === undefined) {
