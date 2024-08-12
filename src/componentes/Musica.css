@@ -1,35 +1,142 @@
-.musica-container {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+/* Estilo general para la sección de música */
+.music-section {
+    font-family: Arial, sans-serif; /* Fuente limpia y moderna */
+    margin: 20px; /* Espacio alrededor de la sección */
+}
+
+/* Estilos para los controles del reproductor */
+.player-controls {
+    margin-top: 20px; /* Espacio sobre los controles */
+    text-align: center; /* Centra los controles */
+}
+
+/* Estilo con efecto de neón para el reproductor */
+.neon-player {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    border: 2px solid #0091ff; /* Borde de color neón */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Espacio dentro del reproductor */
+    box-shadow: 0 0 10px #0091ff; /* Efecto de luz neón */
+}
+
+/* Estilos para la barra de búsqueda */
+.search-bar {
+    display: flex; /* Distribuye elementos en fila */
+    justify-content: space-between; /* Espacio entre elementos */
+    margin-bottom: 20px; /* Espacio debajo de la barra */
+}
+
+.search-bar input {
+    width: 18%; /* Tamaño de los campos de texto */
+    padding: 10px; /* Espacio dentro del campo */
+    font-size: 14px; /* Tamaño de letra adecuado */
+    border-radius: 5px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde gris claro */
+}
+
+.search-bar button {
+    padding: 10px 20px; /* Espacio dentro del botón */
+    font-size: 14px; /* Tamaño de letra estándar */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde exterior */
+    background-color: #28a745; /* Color verde del botón */
+    color: white; /* Texto en blanco */
+    cursor: pointer; /* Mano al pasar sobre el botón */
+}
+
+.search-bar button:hover {
+    background-color: #218838; /* Color verde más oscuro al pasar el mouse */
+}
+
+/* Estilo para la sección de gestión de listas de reproducción */
+.playlist-manager {
+    margin-bottom: 20px; /* Espacio debajo de la sección */
+    text-align: center; /* Centra el contenido */
+}
+
+.playlist-manager select,
+.playlist-manager input {
+    padding: 10px; /* Espacio dentro de los campos */
+    margin-right: 10px; /* Espacio entre los campos */
+    font-size: 14px; /* Tamaño de letra estándar */
+    border-radius: 5px; /* Bordes redondeados */
+    border: 1px solid #ccc; /* Borde gris claro */
+}
+
+.playlist-manager button {
+    padding: 10px 20px; /* Espacio dentro del botón */
+    font-size: 14px; /* Tamaño de letra estándar */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde exterior */
+    background-color: #007bff; /* Color azul del botón */
+    color: white; /* Texto en blanco */
+    cursor: pointer; /* Mano al pasar sobre el botón */
+}
+
+.playlist-manager button:hover {
+    background-color: #0056b3; /* Color azul más oscuro al pasar el mouse */
+}
+
+/* Estilo para la lista de canciones */
+.song-list-container {
+    margin-top: 20px; /* Espacio sobre la lista */
 }
 
 .song-list {
-    list-style-type: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    list-style-type: none; /* Elimina las viñetas de la lista */
+    padding: 0; /* Sin espacio a los lados de la lista */
 }
 
 .song-item {
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    padding: 15px;
-    transition: transform 0.3s ease;
+    display: flex; /* Coloca los elementos en una fila */
+    justify-content: space-between; /* Espacio entre el texto y los botones */
+    padding: 10px; /* Espacio dentro de cada elemento */
+    border: 1px solid #ddd; /* Borde gris claro */
+    margin-bottom: 5px; /* Espacio entre los elementos */
+    background-color: #f9f9f9; /* Fondo gris muy claro */
+    border-radius: 5px; /* Bordes redondeados */
 }
 
-.song-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.song-item button {
+    margin-left: 10px; /* Espacio entre los botones */
+    padding: 5px 10px; /* Espacio dentro del botón */
+    font-size: 12px; /* Tamaño de letra un poco más pequeño */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde exterior */
+    background-color: #007bff; /* Color azul del botón */
+    color: white; /* Texto en blanco */
+    cursor: pointer; /* Mano al pasar sobre el botón */
 }
 
-.song-item h3 {
-    margin-top: 0;
-    color: #2F242C;
+.song-item button:hover {
+    background-color: #0056b3; /* Color azul más oscuro al pasar el mouse */
 }
 
-.song-item p {
-    margin: 5px 0;
-    color: #A1A892;
+/* Estilo para los controles de paginación */
+.pagination {
+    display: flex; /* Coloca los elementos en una fila */
+    justify-content: center; /* Centra los botones de paginación */
+    margin-top: 20px; /* Espacio sobre la paginación */
 }
+
+.pagination button {
+    padding: 10px 20px; /* Espacio dentro del botón */
+    font-size: 14px; /* Tamaño de letra estándar */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde exterior */
+    background-color: #007bff; /* Color azul del botón */
+    color: white; /* Texto en blanco */
+    cursor: pointer; /* Mano al pasar sobre el botón */
+}
+
+.pagination button:disabled {
+    background-color: #6c757d; /* Color gris para botones deshabilitados */
+}
+
+.pagination span {
+    margin: 0 10px; /* Espacio entre los botones y el número de página */
+    font-size: 14px; /* Tamaño de letra estándar */
+    line-height: 34px; /* Alinea el texto verticalmente con los botones */
+}
+
+

@@ -1,131 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Musica.css';
 
 export function Musica() {
+    // Estado para almacenar las canciones, la canción actual, y el estado del reproductor
     const [songs, setSongs] = useState([]);
     const [currentSong, setCurrentSong] = useState(null);
-    const [playing, setPlaying] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [searchQuery, setSearchQuery] = useState({
-        title: '',
-        artist: '',
-        album: '',
-        year: '',
-        genre: ''
-    });
-    const [playlists, setPlaylists] = useState([]);
-    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-    const [newPlaylistName, setNewPlaylistName] = useState('');
-    const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const playerRef = useRef(null);
     const { state } = useAuth();
     const navigate = useNavigate();
+
+    const [{ data: songsData, isError: songsError, isLoading: songsLoading }, doFetchSongs] = useFetch(
+        "/harmonyhub/songs/",
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
 
     useEffect(() => {
         if (!state.isAuthenticated) {
             navigate('/login');
-            return;
+        } else {
+            doFetchSongs();
         }
-
-        async function fetchPlaylists() {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/playlists/`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Token ${state.token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setPlaylists(data.results);
-            } catch (error) {
-                setError(error);
-            }
-        }
-
-        fetchPlaylists();
-    }, [state.isAuthenticated, state.token, navigate]);
-
-    const fetchSongs = async (queryParams) => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?${queryParams}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Token ${state.token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setSongs(data.results);
-            setTotalPages(Math.ceil(data.count / 10)); // Asumiendo que la API devuelve un conteo total de canciones
-        } catch (error) {
-            setError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [state.isAuthenticated, navigate, doFetchSongs]);
 
     useEffect(() => {
-        if (state.isAuthenticated) {
-            fetchSongs('');
+        if (songsData && Array.isArray(songsData)) {
+            setSongs(songsData);
         }
-    }, [state.isAuthenticated, state.token, navigate]);
-
-    const handleSearch = () => {
-        setLoading(true);
-        setCurrentPage(1); // Reiniciar página a 1 cuando la consulta de búsqueda cambia
-        const queryParams = new URLSearchParams(
-            Object.fromEntries(
-                Object.entries(searchQuery).filter(([_, value]) => value)
-            )
-        ).toString();
-        fetchSongs(queryParams);
-    };
-
-    const fetchPlaylistById = async (playlistId) => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/playlists/${playlistId}/`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Token ${state.token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setSelectedPlaylist(data);
-            setSongs(data.entries); // Asumiendo que las canciones están en el campo `entries`
-        } catch (error) {
-            setError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handlePlayPlaylist = (playlistId) => {
-        fetchPlaylistById(playlistId);
-    };
+    }, [songsData]);
 
     const handlePlay = (song) => {
         setCurrentSong(song);
@@ -143,23 +50,120 @@ export function Musica() {
 
     const handleDeleteSong = async (songId) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/${songId}/`, {
-                method: "DELETE",
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
+                method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Token ${state.token}`,
+                    "Authorization": `Token ${state.token}`
                 },
+                body: formData
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            setSongs(songs.filter(song => song.id !== songId));
+            const data = await response.json();
+            setSongs(prev => [data, ...prev]);
+            setNewSong({ title: '', year: '', album: '', file: null });
+            alert("Canción creada exitosamente.");
+            toggleCreateSongModal();
         } catch (error) {
             setError(error);
-            alert("Error al eliminar la canción. Inténtalo de nuevo.");
+            alert("Error al crear la canción. Inténtalo de nuevo.");
         }
+    };
+
+    // Actualiza la búsqueda según lo que se escribe en el formulario
+    const handleSearchChange = (e) => {
+        setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
+        setCurrentPage(1);
+    };
+
+    // Cambia la página de resultados
+    const handlePageChange = (direction) => {
+        if (direction === 'next' && currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        } else if (direction === 'prev' && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    // Alterna la visibilidad del modal para crear una canción
+    const toggleCreateSongModal = () => setShowCreateSongModal(!showCreateSongModal);
+
+    // Maneja la selección de una lista de reproducción
+    const handlePlaylistSelect = (e) => {
+        setSelectedPlaylistId(e.target.value);
+    };
+
+    // Reproduce una canción seleccionada
+    const handlePlay = (song) => {
+        setCurrentSong(song);
+        setPlaying(true);
+    };
+
+    // Funciones vacías para manejar la reproducción de listas de reproducción
+    const handlePlayPlaylist = (playlistId) => {
+        // Lógica para reproducir una lista de reproducción
+    };
+
+    // Funciones vacías para manejar agregar canciones a listas de reproducción y eliminar canciones
+    const handleAddToPlaylist = (playlistId, songId) => {
+        // Lógica para agregar una canción a la lista de reproducción
+    };
+
+    const handleDeleteSong = (songId) => {
+        // Lógica para eliminar una canción
+    };
+
+    // Función vacía para crear una nueva lista de reproducción
+    const handleCreatePlaylist = () => {
+        // Lógica para crear una nueva lista de reproducción
+    };
+
+    // Controla la posición de reproducción (seek) del reproductor
+    const handleSeek = (seconds) => {
+        playerRef.current.seekTo(seconds);
+    };
+
+    // Cambia el volumen del reproductor
+    const handleVolumeChange = (e) => {
+        playerRef.current.setVolume(parseFloat(e.target.value));
+    };
+
+    // Maneja la selección de archivos para subir una canción
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type !== 'audio/mp3') {
+            alert('Por favor, sube un archivo MP3.');
+            return;
+        }
+        if (file && file.size > 10 * 1024 * 1024) { // 10 MB
+            alert('El archivo no debe superar los 10 MB.');
+            return;
+        }
+        setNewSong({ ...newSong, file });
+    };
+
+    // Reproduce la siguiente canción en la lista
+    const handleNextSong = () => {
+        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        setCurrentSong(songs[nextIndex]);
+        setPlaying(true);
+    };
+
+    // Reproduce la canción anterior en la lista
+    const handlePreviousSong = () => {
+        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+        const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+        setCurrentSong(songs[previousIndex]);
+        setPlaying(true);
+    };
+
+    // Detiene la reproducción de la canción actual
+    const handleStop = () => {
+        setPlaying(false);
+        setCurrentSong(null);
     };
 
     const handleCreatePlaylist = async () => {
@@ -263,121 +267,22 @@ export function Musica() {
     return (
         <section className="music-section">
             <h1>Music Page</h1>
-
-            {currentSong && (
-                <div className="player-controls neon-player">
-                    <ReactPlayer
-                        ref={playerRef}
-                        url={currentSong.url}
-                        playing={playing}
-                        controls={true}
-                        onEnded={handleStop}
-                    />
-                    <button onClick={handlePause}>Pausar</button>
-                    <button onClick={handleStop}>Detener</button>
-                </div>
-            )}
-
-            <div className="search-bar">
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Título"
-                    value={searchQuery.title}
-                    onChange={handleSearchChange}
- />
-                <input
-                    type="text"
-                    name="artist"
-                    placeholder="Artista"
-                    value={searchQuery.artist}
-                    onChange={handleSearchChange}
-                />
-                <input
-                    type="text"
-                    name="album"
-                    placeholder="Álbum"
-                    value={searchQuery.album}
-                    onChange={handleSearchChange}
-                />
-                <input
-                    type="text"
-                    name="year"
-                    placeholder="Año"
-                    value={searchQuery.year}
-                    onChange={handleSearchChange}
-                />
-                <input
-                    type="text"
-                    name="genre"
-                    placeholder="Género"
-                    value={searchQuery.genre}
-                    onChange={handleSearchChange}
-                />
-                <button onClick={handleSearch}>Buscar</button>
-            </div>
-
             <div className="song-list">
-                {songs.map(song => (
-                    <div key={song.id} className="song-item neon-effect">
-                        <h3>{song.title}</h3>
-                        <p>{song.artist} - {song.album} ({song.year})</p>
-                        <p>Género: {song.genre}</p>
-                        <div className="buttons">
-                            <button onClick={() => handlePlay(song)}>Reproducir</button>
-                            <button onClick={() => handleDeleteSong(song.id)}>Eliminar</button>
-                            <select value={selectedPlaylistId} onChange={handlePlaylistSelect}>
-                                <option value="">Seleccionar Playlist</option>
-                                {playlists.map(playlist => (
-                                    <option key={playlist.id} value={playlist.id}>{playlist.name}</option>
-                                ))}
-                            </select>
-                            <button onClick={() => handleAddToPlaylist(selectedPlaylistId, song.id)}>Agregar a Playlist</button>
-                            <button onClick={() => handleRemoveFromPlaylist(selectedPlaylistId, song.id)}>Eliminar de Playlist</button>
-                        </div>
+                {songs.map((song) => (
+                    <div key={song.id} className="song-item">
+                        <span onClick={() => handlePlay(song)}>{song.title}</span>
+                        <button onClick={() => handleDeleteSong(song.id)}>Delete</button>
                     </div>
                 ))}
             </div>
-
-            <div className="pagination">
-                <button disabled={currentPage === 1} onClick={() => handlePageChange(-1)}>Anterior</button>
-                <span>Página {currentPage} de {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={() => handlePageChange(1)}>Siguiente</button>
-            </div>
-
-            <div className="create-playlist">
-                <input
-                    type="text"
-                    placeholder="Nombre de la nueva Playlist"
-                    value={newPlaylistName}
-                    onChange={(e) => setNewPlaylistName(e.target.value)}
+            {currentSong && (
+                <ReactPlayer
+                    url={currentSong.url}
+                    playing={true}
+                    controls={true}
+                    width="100%"
+                    height="50px"
                 />
-                <button onClick={handleCreatePlaylist}>Crear Playlist</button>
-            </div>
-
-            <div className="playlist-details">
-                {playlists.map(playlist => (
-                    <div key={playlist.id}>
-                        <h3>{playlist.name}</h3>
-                        <p>{playlist.description}</p>
-                        <button onClick={() => handlePlayPlaylist(playlist.id)}>Ver Detalles</button>
-                    </div>
-                ))}
-            </div>
-
-            {selectedPlaylist && (
-                <div className="selected-playlist">
-                    <h2>{selectedPlaylist.name}</h2>
-                    <p>{selectedPlaylist.description}</p>
-                    <p>Creada el: {selectedPlaylist.created_at}</p>
-                    <p>Actualizada el: {selectedPlaylist.updated_at}</p>
-                    <h3>Canciones en la Playlist:</h3>
-                    <ul>
-                        {selectedPlaylist.entries.map(song => (
-                            <li key={song.id}>{song.title} - {song.artist}</li>
-                        ))}
-                    </ul>
-                </div>
             )}
         </section>
     );
