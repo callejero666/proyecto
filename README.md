@@ -34,17 +34,18 @@ Navegación: Enrutamiento completo para las páginas de inicio, música, chat y 
 
 
 Rutas
-/register - Página de registro de usuario.
-/login- Página de inicio de sesión.
-/ - Página de inicio, muestra las opciones de explorar música, chat y perfil.
-/music - Página para explorar y gestionar música.
-/chat - Página de chat para comunicarse con otros usuarios.
-/profile-Paige
-/404 - Página de error para rutas no encontradas.
+src/
+src/Registro - Página de registro de usuario.
+src/login- Página de inicio de sesión.
+src/ Principal- Página de inicio, muestra las opciones de explorar música, chat y perfil.
+src/Musica - Página para explorar y gestionar música.
+src/Chat - Página de chat para comunicarse con otros usuarios.
+src/Perfil-Página que permite editar perfil.
+src/NotFoud - Página de error para rutas no encontradas.
 
 Equipo:
 Mauno, Rosana
 Reyes, Rodrigo
 Videla Pérez, Lourdes Yanina
 
-GitHub: 
+GitHub: https://github.com/callejero666/proyecto.git
