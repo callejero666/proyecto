@@ -1,109 +1,124 @@
+/* Contenedor principal del chat */
 .chat-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
-  background-image: url('/2.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  display: flex; /* Usa flexbox para organizar el contenido */
+  flex-direction: column; /* Ordena los elementos en columna */
+  align-items: center; /* Centra los elementos horizontalmente */
+  justify-content: center; /* Centra los elementos verticalmente */
+  height: 100%; /* Ocupa el 100% de la altura del contenedor padre */
+  padding: 20px; /* Espacio interior alrededor del contenedor */
+  box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho y alto */
+  text-align: center; /* Centra el texto dentro del contenedor */
+  background-image: url('/2.png'); /* Imagen de fondo */
+  background-size: cover; /* Asegura que la imagen de fondo cubra todo el contenedor */
+  background-position: center; /* Centra la imagen de fondo */
+  background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
 }
 
+/* Contenedor de los mensajes */
 .chat-container .messages {
-  width: 100%;
-  max-width: 600px;
-  height: 300px;
-  border: 2px solid hsl(288, 91%, 48%);
-  border-radius: 10px;
-  padding: 10px;
-  overflow-y: auto;
-  background-color: hsl(0, 2%, 51%);
-  margin-bottom: 20px;
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  max-width: 600px; /* Limita el ancho máximo a 600px */
+  height: 300px; /* Fija la altura del contenedor de mensajes */
+  border: 2px solid hsl(288, 91%, 48%); /* Borde de color purpura */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 10px; /* Espacio interior alrededor del contenido */
+  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+  background-color: hsl(0, 2%, 51%); /* Fondo gris oscuro */
+  margin-bottom: 20px; /* Espacio debajo del contenedor */
 }
 
+/* Estilos para cada mensaje individual */
 .chat-container .messages .message {
-  position: relative;
-  margin: 10px 0;
-  padding: 10px;
-  background-color: hsl(0, 16%, 27%);
-  border-radius: 5px;
-  color: white;
-  text-align: left;
+  position: relative; /* Permite posicionar el botón de eliminación */
+  margin: 10px 0; /* Espacio vertical entre los mensajes */
+  padding: 10px; /* Espacio interior del mensaje */
+  background-color: hsl(0, 16%, 27%); /* Fondo gris oscuro */
+  border-radius: 5px; /* Bordes redondeados */
+  color: white; /* Texto blanco */
+  text-align: left; /* Alineación del texto a la izquierda */
 }
 
+/* Estilos específicos para los mensajes del usuario */
 .chat-container .messages .message.user {
-  background-color: hsl(288, 91%, 48%); /* Color diferente para los mensajes del usuario */
-  align-self: flex-end;
-  text-align: right;
+  background-color: hsl(288, 91%, 48%); /* Fondo purpura para mensajes del usuario */
+  align-self: flex-end; /* Alinea los mensajes del usuario a la derecha */
+  text-align: right; /* Texto alineado a la derecha */
 }
 
+/* Estilos específicos para los mensajes del bot */
 .chat-container .messages .message.bot {
-  background-color: hsl(0, 16%, 27%); /* Color diferente para los mensajes del bot */
-  align-self: flex-start;
+  background-color: hsl(0, 16%, 27%); /* Fondo gris oscuro para mensajes del bot */
+  align-self: flex-start; /* Alinea los mensajes del bot a la izquierda */
 }
 
+/* Botón de eliminación dentro de cada mensaje */
 .chat-container .messages .message .delete-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: hsl(0, 100%, 50%);
-  cursor: pointer;
-  font-size: 16px;
+  position: absolute; /* Posiciona el botón en relación con el mensaje */
+  top: 10px; /* A 10px del borde superior del mensaje */
+  right: 10px; /* A 10px del borde derecho del mensaje */
+  background: transparent; /* Fondo transparente */
+  border: none; /* Sin borde */
+  color: hsl(0, 100%, 50%); /* Color rojo para el botón */
+  cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
+  font-size: 16px; /* Tamaño del texto del botón */
 }
 
+/* Estilo del botón de eliminación al pasar el ratón por encima */
 .chat-container .messages .message .delete-btn:hover {
-  color: hsl(0, 100%, 70%);
+  color: hsl(0, 100%, 70%); /* El color del botón se aclara al pasar el ratón */
 }
 
+/* Contenedor del campo de entrada de texto y botón de envío */
 .chat-container .input-container {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 600px;
+  display: flex; /* Usa flexbox para organizar los elementos en fila */
+  gap: 10px; /* Espacio entre el campo de entrada y el botón */
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  max-width: 600px; /* Limita el ancho máximo a 600px */
 }
 
+/* Estilos para el campo de entrada de texto */
 .chat-container .input-container input {
-  flex: 1;
-  padding: 10px;
-  border: 2px solid hsl(288, 91%, 48%);
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
+  flex: 1; /* El campo de entrada ocupa todo el espacio disponible */
+  padding: 10px; /* Espacio interior alrededor del texto */
+  border: 2px solid hsl(288, 91%, 48%); /* Borde purpura */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño del texto */
+  box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho */
 }
 
+/* Estilos para el botón de envío */
 .chat-container .input-container button {
-  padding: 10px 20px;
-  border: 2px solid hsl(288, 91%, 48%);
-  border-radius: 5px;
-  background-color: hsl(0, 2%, 51%);
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: white;
+  padding: 10px 20px; /* Espacio interior del botón */
+  border: 2px solid hsl(288, 91%, 48%); /* Borde purpura */
+  border-radius: 5px; /* Bordes redondeados */
+  background-color: hsl(0, 2%, 51%); /* Fondo gris oscuro */
+  font-size: 16px; /* Tamaño del texto */
+  cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
+  transition: background-color 0.3s ease; /* Transición suave para el cambio de color de fondo */
+  color: white; /* Texto blanco */
 }
 
+/* Estilo del botón de envío al pasar el ratón por encima */
 .chat-container .input-container button:hover {
-  background-color: hsl(0, 16%, 27%);
-  box-shadow: 0 0 5px rgba(161, 168, 146, 0.5); /* Sombra verde claro */
+  background-color: hsl(0, 16%, 27%); /* El fondo del botón se oscurece al pasar el ratón */
+  box-shadow: 0 0 5px rgba(161, 168, 146, 0.5); /* Añade una sombra verde claro al botón */
 }
 
+/* Estilos responsivos para pantallas más pequeñas */
 @media (max-width: 768px) {
+  /* Ajusta la altura del contenedor de mensajes */
   .chat-container .messages {
-    height: 200px;
-    box-shadow: 0 0 10px rgba(230, 216, 132, 0.5); /* Sombra amarilla */
+    height: 200px; /* Altura reducida para pantallas pequeñas */
+    box-shadow: 0 0 10px rgba(230, 216, 132, 0.5); /* Añade una sombra amarilla */
   }
 
+  /* Reduce el tamaño de la fuente en el campo de entrada */
   .chat-container .input-container input {
-    font-size: 14px;
+    font-size: 14px; /* Tamaño de texto más pequeño */
   }
 
+  /* Reduce el tamaño de la fuente en el botón de envío */
   .chat-container .input-container button {
-    font-size: 14px;
+    font-size: 14px; /* Tamaño de texto más pequeño */
   }
 }
