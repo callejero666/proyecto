@@ -1,6 +1,9 @@
+/* Incluye el enlace a Google Fonts para la fuente Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 :root {
   margin: 0;
-  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  font-family: "Roboto", sans-serif; /* Cambiado a Roboto para toda la aplicación */
   line-height: 1.5;
   font-weight: 700; /* Aplica negrita a todo el texto */
 
@@ -29,7 +32,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: "Baskerville", serif; /* Cambiado a Baskerville para toda la aplicación */
+  font-family: "Roboto", sans-serif; /* Cambiado a Roboto para toda la aplicación */
   font-weight: 700; /* Aplica negrita a todo el texto */
 }
 
