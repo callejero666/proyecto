@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
 
 export function Navbar() {
-    const { state, actions } = useAuth();
+    const { state } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -19,8 +19,9 @@ export function Navbar() {
             {state.isAuthenticated ? (
                 <>
                     <Link to="/principal">Inicio</Link>
-                    <Link to="/musica">Música</Link>
-                    <Link to="/chat">Chat</Link>
+                    {/* Eliminar estos dos enlaces */}
+                    {/* <Link to="/musica">Música</Link> */}
+                    {/* <Link to="/chat">Chat</Link> */}
                     <Link to="/perfil">Perfil</Link>
                 </>
             ) : (
