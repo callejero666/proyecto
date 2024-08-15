@@ -1,5 +1,6 @@
 .navbar {
-    background-color: #2F242C;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con algo de transparencia */
+    backdrop-filter: blur(10px); /* Efecto de vidrio esmerilado */
     overflow: hidden;
     display: flex;
     position: relative;
@@ -7,14 +8,16 @@
 
 .navbar a {
     display: block;
-    color: #E5E5E5;
+    color: #E5E5E5; /* Color claro para el texto */
     text-align: center;
     padding: 15px 16px;
     text-decoration: none;
-    text-decoration: underline #A1A892;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Borde inferior translúcido */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navbar a:hover {
-    background-color: #E6D884;
-    color: #2F242C;
+    background-color: #00aaff; /* Celeste oscuro para el fondo al pasar el mouse */
+    color: #ffffff; /* Blanco para el texto al pasar el mouse */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4); /* Borde inferior oscuro al pasar el mouse */
 }
