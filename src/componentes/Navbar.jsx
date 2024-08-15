@@ -19,15 +19,12 @@ export function Navbar() {
             {state.isAuthenticated ? (
                 <>
                     <Link to="/principal">Inicio</Link>
-                    {/* Eliminar estos dos enlaces */}
-                    {/* <Link to="/musica">Música</Link> */}
-                    {/* <Link to="/chat">Chat</Link> */}
                     <Link to="/perfil">Perfil</Link>
                 </>
             ) : (
                 <>
                     {location.pathname !== '/login' && <Link to="/login">Iniciar Sesión</Link>}
-                    <Link to="/registro">Registro</Link>
+                    {location.pathname !== '/login' && <Link to="/registro">Registro</Link>}
                 </>
             )}
         </nav>
