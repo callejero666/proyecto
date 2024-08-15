@@ -7,6 +7,8 @@ export function Chat() {
   // Estados para almacenar los mensajes y el nuevo mensaje
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [servers, setServers] = useState([]);
+  const [channels, setChannels] = useState([]);
   const navigate = useNavigate(); // Hook para navegar entre rutas
 
   // Función para enviar un nuevo mensaje
@@ -22,17 +24,43 @@ export function Chat() {
     setMessages(messages.filter(message => message.id !== id));
   };
 
+  // Función para crear un nuevo servidor
+  const handleCreateServer = () => {
+    const serverName = prompt('Nombre del nuevo servidor:');
+    if (serverName) {
+      setServers([...servers, { id: Date.now(), name: serverName }]);
+    }
+  };
+
+  // Función para crear un nuevo canal
+  const handleCreateChannel = () => {
+    const channelName = prompt('Nombre del nuevo canal:');
+    if (channelName) {
+      setChannels([...channels, { id: Date.now(), name: channelName }]);
+    }
+  };
+
   // Renderizado del componente
   return (
     <div className="chat-layout">
       <div className="sidebar">
         <div className="servers">
           <h3>Servidores</h3>
-          {/* Aquí puedes agregar la lógica para mostrar la lista de servidores */}
+          <button className="create-btn" onClick={handleCreateServer}>Crear Servidor</button>
+          <ul>
+            {servers.map(server => (
+              <li key={server.id}>{server.name}</li>
+            ))}
+          </ul>
         </div>
         <div className="channels">
           <h3>Canales</h3>
-          {/* Aquí puedes agregar la lógica para mostrar la lista de canales */}
+          <button className="create-btn" onClick={handleCreateChannel}>Crear Canal</button>
+          <ul>
+            {channels.map(channel => (
+              <li key={channel.id}>{channel.name}</li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="chat-container">
@@ -67,4 +95,5 @@ export function Chat() {
     </div>
   );
 }
+
 

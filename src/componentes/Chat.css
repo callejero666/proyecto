@@ -26,6 +26,20 @@
   padding-top: 10px;
 }
 
+.create-btn {
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #218838;
+}
+
 .chat-container {
   width: 75%; /* Ajusta el ancho según tus necesidades */
   display: flex;
@@ -80,4 +94,3 @@ button:hover {
 .delete-btn:hover {
   background-color: darkred;
 }
-
