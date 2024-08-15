@@ -17,24 +17,29 @@ function AppContent() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token && !state.isAuthenticated) {
-            // Aquí podrías hacer una llamada a la API para validar el token y obtener los datos del usuario
             actions.login({ token });
-        } else if (!state.isAuthenticated) {
-            navigate('/login'); // Redirige a la página de inicio de sesión si no está autenticado
         }
-    }, [state.isAuthenticated, actions, navigate]);
+    }, [state.isAuthenticated, actions]);
+
+    useEffect(() => {
+        if (!state.isAuthenticated) {
+            // Guarda la ruta actual antes de redirigir
+            localStorage.setItem('redirectAfterLogin', window.location.pathname);
+            navigate('/login');
+        }
+    }, [state.isAuthenticated, navigate]);
 
     return (
         <>
             <Navbar />
             <Routes>
-                <Route path="/" element={<Login />} /> {/* Cambiado para que Login sea la ruta principal */}
-                <Route path="/principal" element={<Principal />} />
+                <Route path="/" element={state.isAuthenticated ? <Principal /> : <Login />} />
+                <Route path="/principal" element={state.isAuthenticated ? <Principal /> : <Login />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registro" element={<Registro />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/musica" element={<Musica />} />
-                <Route path="/perfil" element={<Perfil />} />
+                <Route path="/chat" element={state.isAuthenticated ? <Chat /> : <Login />} />
+                <Route path="/musica" element={state.isAuthenticated ? <Musica /> : <Login />} />
+                <Route path="/perfil" element={state.isAuthenticated ? <Perfil /> : <Login />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
@@ -52,3 +57,5 @@ function App() {
 }
 
 export default App;
+
+

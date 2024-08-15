@@ -67,7 +67,7 @@ export function Musica() {
         setLoading(true);
         try {
             let url = `${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?page=${page}&page_size=10`;
-            
+
             if (query) {
                 url += `&title=${encodeURIComponent(query)}`;
             }
@@ -245,24 +245,28 @@ export function Musica() {
             <div className="search-bar">
                 <input
                     type="text"
+                    id="search-input"         // ID único para vincular el campo de forma accesible
+                    name="searchQuery"        // Nombre descriptivo para el campo de entrada
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Buscar canciones..."
+                    autocomplete="off"        // Desactiva el autocompletado del navegador
                 />
             </div>
-    
+
+
             <div className="advanced-filters">
-                <button 
-                    onClick={() => setShowFiltersModal(true)} 
+                <button
+                    onClick={() => setShowFiltersModal(true)}
                     className={`filter-button ${Object.values(filters).some(v => v !== '') ? 'active' : ''}`}
                 >
                     Filtros avanzados {Object.values(filters).some(v => v !== '') ? '(activos)' : ''}
                 </button>
             </div>
-    
+
             {loading && <p>Cargando canciones...</p>}
             {error && <p>Error: {error.message}</p>}
-    
+
             <div className="song-list">
                 <h2>Lista de Canciones</h2>
                 {songs.length === 0 ? (
@@ -273,7 +277,7 @@ export function Musica() {
                             <li key={song.id}>
                                 <strong>{song.title}</strong> - {song.year}
                                 <button onClick={() => setCurrentSong(song)}>Reproducir</button>
-                                <button onClick={() => {setSelectedSong(song); toggleUpdateSongModal();}}>Editar</button>
+                                <button onClick={() => { setSelectedSong(song); toggleUpdateSongModal(); }}>Editar</button>
                                 <button onClick={() => handleDeleteSong(song.id)}>Eliminar</button>
                             </li>
                         ))}
@@ -295,7 +299,7 @@ export function Musica() {
                     </button>
                 </div>
             </div>
-    
+
             {currentSong && (
                 <div className="player-container">
                     <ReactPlayer
@@ -311,13 +315,13 @@ export function Musica() {
                     </button>
                 </div>
             )}
-    
+
             <div className="creation-buttons">
                 <button onClick={toggleCreateSongModal} className="small-button">Crear Canción</button>
                 <button onClick={toggleCreateArtistModal} className="small-button">Crear Artista</button>
                 <button onClick={toggleArtistListModal} className="small-button">Mostrar Artistas</button>
             </div>
-    
+
             {showCreateSongModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -354,7 +358,7 @@ export function Musica() {
                     </div>
                 </div>
             )}
-    
+
             {showCreateArtistModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -385,7 +389,7 @@ export function Musica() {
                     </div>
                 </div>
             )}
-    
+
             {showArtistListModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -407,7 +411,7 @@ export function Musica() {
                     </div>
                 </div>
             )}
-    
+
             {showUpdateSongModal && selectedSong && (
                 <div className="modal">
                     <div className="modal-content">
@@ -439,7 +443,7 @@ export function Musica() {
                     </div>
                 </div>
             )}
-    
+
             {showFiltersModal && (
                 <div className="modal">
                     <div className="modal-content">
@@ -467,11 +471,11 @@ export function Musica() {
                                     name={`filter-${key}`}
                                     type="text"
                                     value={filters[key]}
-                                    onChange={(e) => handleFilterChange(key, e.target.value)}
+                                    onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
                                     placeholder={label}
                                 />
                             </div>
-                        ))}
+                        ))}    
                         <div className="modal-buttons">
                             <button onClick={() => {
                                 fetchSongs(1);
