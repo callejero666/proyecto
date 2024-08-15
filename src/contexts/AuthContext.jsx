@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
     state: {},
@@ -63,8 +63,9 @@ export function AuthProvider({ children }) {
             if (!state.isAuthenticated) {
                 localStorage.setItem('token', userData.token);
                 dispatch({ type: ACTIONS.LOGIN, payload: userData });
-                const origin = location.state?.from?.pathname || '/';
-                navigate(origin);
+                const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+                localStorage.removeItem('redirectAfterLogin');
+                navigate(redirectPath);
             }
         },
         logout: () => {
@@ -76,6 +77,13 @@ export function AuthProvider({ children }) {
             dispatch({ type: ACTIONS.UPDATE_PROFILE, payload: profileData });
         },
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token && !state.isAuthenticated) {
+            actions.login({ token });
+        }
+    }, [state.isAuthenticated, actions]);
 
     return (
         <AuthContext.Provider value={{ state, actions }}>
