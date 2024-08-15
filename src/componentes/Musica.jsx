@@ -42,24 +42,26 @@ export function Musica() {
     });
 
     const [filters, setFilters] = useState({
-        titulo: '',
+        title: '',
         album: '',
-        artistas: '',
-        generos: '',
-        año: '',
-        duracion: '',
-        reproducciones: '',
-        creado_desde: '',
-        creado_hasta: '',
-        actualizado_desde: '',
-        actualizado_hasta: '',
-        propietario: '',
-        ordenar_por: ''
+        artists: '',
+        genres: '',
+        year: '',
+        duration: '',
+        view_count: '',
+        created_at_min: '',
+        created_at_max: '',
+        updated_at_min: '',
+        updated_at_max: '',
+        owner: '',
+        ordering: '',
+        page: 1,
+        page_size: 10
     });
 
     useEffect(() => {
         fetchSongs(currentPage, searchQuery);
-    }, [currentPage, searchQuery]);
+    }, [currentPage, searchQuery, filters]);
 
     const fetchSongs = async (page, query = '') => {
         setLoading(true);
@@ -70,12 +72,13 @@ export function Musica() {
                 url += `&title=${encodeURIComponent(query)}`;
             }
 
-            // Add filters to the URL
-            Object.keys(filters).forEach(key => {
-                if (filters[key]) {
-                    url += `&${key}=${encodeURIComponent(filters[key])}`;
+            // Añadir filtros a la URL
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value) {
+                    url += `&${key}=${encodeURIComponent(value)}`;
                 }
             });
+            console.log('URL de búsqueda:', url); // Para depuración
 
             const response = await fetch(url, {
                 method: "GET",
@@ -93,6 +96,7 @@ export function Musica() {
             setTotalPages(Math.ceil(data.count / 10));
             setLoading(false);
         } catch (error) {
+            console.error('Error en fetchSongs:', error); // Para depuración
             setError(error);
             setLoading(false);
             alert("Error al cargar las canciones. Inténtalo de nuevo.");
@@ -216,6 +220,20 @@ export function Musica() {
         }
     };
 
+    const handleFilterChange = (key, value) => {
+        setFilters(prevFilters => ({...prevFilters, [key]: value}));
+
+    };
+
+
+    const goToFirstPage = () => {
+        setCurrentPage(1);
+    };
+
+    const goToLastPage = () => {
+        setCurrentPage(totalPages);
+    };
+
     const toggleCreateSongModal = () => setShowCreateSongModal(!showCreateSongModal);
     const toggleCreateArtistModal = () => setShowCreateArtistModal(!showCreateArtistModal);
     const toggleArtistListModal = () => setShowArtistListModal(!showArtistListModal);
@@ -262,12 +280,18 @@ export function Musica() {
                     </ul>
                 )}
                 <div className="pagination-controls">
+                    <button onClick={goToFirstPage} disabled={currentPage === 1}>
+                    Pag 1
+                    </button>
                     <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1}>
                         Anterior
                     </button>
                     <span> Página {currentPage} de {totalPages} </span>
                     <button onClick={() => handlePageChange('next')} disabled={currentPage === totalPages}>
                         Siguiente
+                    </button>
+                    <button onClick={goToLastPage} disabled={currentPage === totalPages}>
+                        Última Pag
                     </button>
                 </div>
             </div>
@@ -437,29 +461,30 @@ export function Musica() {
                             ordenar_por: 'Ordenar por'
                         }).map(([key, label]) => (
                             <div key={key} className="filter-item">
-                                <label htmlFor={key}>{label}</label>
+                                <label htmlFor={`filter-${key}`}>{label}</label>
                                 <input
-                                    id={key}
+                                    id={`filter-${key}`}
+                                    name={`filter-${key}`}
                                     type="text"
                                     value={filters[key]}
-                                    onChange={(e) => setFilters({...filters, [key]: e.target.value})}
+                                    onChange={(e) => handleFilterChange(key, e.target.value)}
                                     placeholder={label}
                                 />
                             </div>
-                        ))}    
+                        ))}
                         <div className="modal-buttons">
                             <button onClick={() => {
                                 fetchSongs(1);
                                 setShowFiltersModal(false);
                             }}>Aplicar filtros</button>
-                            <button onClick={() => setShowFiltersModal(false)}>Cerrar</button>
+                            <button onClick={() => setShowFiltersModal(false)}>Aplicar filtros</button>
                         </div>
                     </div>
-                </div>   
+                </div>
             )}
         </section>
     );
-}    
+}
     
 
 
