@@ -24,34 +24,47 @@ export function Chat() {
 
   // Renderizado del componente
   return (
-    <div className="chat-container">
-      {/* Contenedor de mensajes */}
-      <div className="messages">
-        {messages.map((message) => (
-          <div key={message.id} className="message">
-            {message.text}
-            {/* Botón para eliminar el mensaje */}
-            <button
-              className="delete-btn"
-              onClick={() => handleDeleteMessage(message.id)}
-            >
-              X
-            </button>
-          </div>
-        ))}
+    <div className="chat-layout">
+      <div className="sidebar">
+        <div className="servers">
+          <h3>Servidores</h3>
+          {/* Aquí puedes agregar la lógica para mostrar la lista de servidores */}
+        </div>
+        <div className="channels">
+          <h3>Canales</h3>
+          {/* Aquí puedes agregar la lógica para mostrar la lista de canales */}
+        </div>
       </div>
-      {/* Contenedor de entrada de mensajes */}
-      <div className="input-container">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Escribe tu mensaje..."
-        />
-        <button onClick={handleSendMessage}>Enviar</button>
+      <div className="chat-container">
+        {/* Contenedor de mensajes */}
+        <div className="messages">
+          {messages.map((message) => (
+            <div key={message.id} className="message">
+              {message.text}
+              {/* Botón para eliminar el mensaje */}
+              <button
+                className="delete-btn"
+                onClick={() => handleDeleteMessage(message.id)}
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
+        {/* Contenedor de entrada de mensajes */}
+        <div className="input-container">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Escribe tu mensaje..."
+          />
+          <button onClick={handleSendMessage}>Enviar</button>
+        </div>
+        {/* Botón para volver a la ruta principal */}
+        <button onClick={() => navigate('/principal')}>Volver al Principal</button>
       </div>
-      {/* Botón para volver a la ruta principal */}
-      <button onClick={() => navigate('/principal')}>Volver al Principal</button>
     </div>
   );
 }
+
