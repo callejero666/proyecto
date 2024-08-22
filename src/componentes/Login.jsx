@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 import { useAuth } from "../contexts/AuthContext";
+import useFetch from "../hooks/useFetch";
 import "./Login.css";
 
 export function Login() {
@@ -65,6 +65,7 @@ export function Login() {
                         value={password}
                         onChange={handleChange}
                         required
+                        autoComplete="current-password"
                     />
                 </div>
                 <button type="submit" disabled={isLoading}>
