@@ -7,19 +7,20 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #f5f5f5; /* Fondo para contraste con el formulario */
+  background: rgba(0, 0, 0, 0.4); /* Fondo oscuro con algo de transparencia */
+  backdrop-filter: blur(10px); /* Efecto de vidrio esmerilado */
 }
 
 .registro-section h1 {
   font-size: 120px;
   margin-bottom: 20px;
   text-decoration: underline;
-  color: #f00cb3;
+  color: #00aaff; /* Celeste oscuro para el título */
 }
 
 .registro-form {
-  background-color: #E6D884;
-  border: 2px solid #A1A892;
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+  border: 2px solid #000000; /* Borde negro */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -33,10 +34,11 @@
   width: calc(100% - 2rem);
   padding: 0.75rem;
   margin-bottom: 1rem;
-  border: 2px solid #A1A892;
+  border: 2px solid #000000; /* Borde negro */
   border-radius: 10px;
   font-size: 1rem;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+  color: #000000; /* Texto negro */
 }
 
 .registro-form button {
@@ -44,17 +46,16 @@
   padding: 0.75rem;
   font-size: 28px;
   cursor: pointer;
-  border: 2px solid #A1A892;
+  border: 2px solid #000000; /* Borde negro */
   border-radius: 10px;
-  background-color: #E6D884;
-  color: #0a0a0a;
-  text-decoration: underline #2F242C;
+  background-color: #00aaff; /* Celeste oscuro */
+  color: #ffffff; /* Blanco para el texto */
   transition: background-color 0.3s ease;
   margin-top: 10px;
 }
 
 .registro-form button:hover {
-  background-color: #A1A892;
+  background-color: #0088cc; /* Color más oscuro al pasar el mouse */
 }
 
 @media (max-width: 768px) {
@@ -65,4 +66,27 @@
       padding: 1rem;
       max-width: 90%;
   }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  background-color: #f5f5f5; /* Fondo claro para el efecto glass */
+  background-image: url('/nosotros-banner.jpg'); /* Asegúrate de usar la ruta correcta */
+  background-size: cover; /* Asegura que la imagen cubra todo el área */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  font-family: "Roboto", sans-serif; /* Cambiado a Roboto para toda la aplicación */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Color negro con 40% de opacidad */
+  pointer-events: none; /* Para que no interfiera con la interacción del usuario */
 }

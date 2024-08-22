@@ -78,7 +78,7 @@ export function Musica() {
                     url += `&${key}=${encodeURIComponent(value)}`;
                 }
             });
-            console.log('URL de búsqueda:', url); // Para depuración
+            //console.log('URL de búsqueda:', url); // Para depuración
 
             const response = await fetch(url, {
                 method: "GET",
