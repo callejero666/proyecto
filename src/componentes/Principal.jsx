@@ -17,7 +17,6 @@ export function Principal() {
             <h1>LO QUE QUIERAS</h1>
             <div className="button-container">
                 <button onClick={() => navigate('/musica')}>MUSICA</button>
-                <button onClick={() => navigate('/perfil')}>PERFIL</button>
             </div>
             <button onClick={handleLogout} className="logout-button">Cerrar Sesión</button>
         </section>
