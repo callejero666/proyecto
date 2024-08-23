@@ -2,6 +2,10 @@
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+    background-color: rgba(0, 114, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 114, 255, 0.3);
 }
 
 .playlist-header {
@@ -18,21 +22,24 @@
     border-radius: 5px;
     font-size: 16px;
     margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .create-button {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .create-button:hover {
-    background-color: #218838;
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .playlist-list {
@@ -45,7 +52,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -67,42 +75,29 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover, .delete-button:hover, .save-button:hover, .cancel-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .edit-button {
-    background-color: #ffc107;
-    color: black;
-}
-
-.edit-button:hover {
-    background-color: #e0a800;
+    background-color: rgba(255, 193, 7, 0.5);
 }
 
 .delete-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-.delete-button:hover {
-    background-color: #c82333;
+    background-color: rgba(220, 53, 69, 0.5);
 }
 
 .save-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.save-button:hover {
-    background-color: #218838;
+    background-color: rgba(40, 167, 69, 0.5);
 }
 
 .cancel-button {
-    background-color: #6c757d;
-    color: white;
-}
-
-.cancel-button:hover {
-    background-color: #5a6268;
+    background-color: rgba(108, 117, 125, 0.5);
 }
 
 .pagination-buttons {
@@ -113,20 +108,21 @@
 
 .prev-button, .next-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .prev-button:hover, .next-button:hover {
-    background-color: #0056b3;
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .prev-button:disabled, .next-button:disabled {
-    background-color: #6c757d;
+    background-color: rgba(108, 117, 125, 0.5);
     cursor: not-allowed;
 }*/
 
@@ -258,3 +254,4 @@
     background-color: rgba(108, 117, 125, 0.5);
     cursor: not-allowed;
 }
+

@@ -60,6 +60,7 @@ export function Musica() {
             Object.entries(filters).forEach(([key, value]) => {
                 if (value) url += `&${key}=${encodeURIComponent(value)}`;
             });
+            //console.log('URL de búsqueda:', url); // Para depuración
 
             const response = await fetch(url, {
                 method: "GET",
