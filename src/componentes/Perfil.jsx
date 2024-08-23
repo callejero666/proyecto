@@ -9,7 +9,6 @@ export function Perfil() {
 
     const [profile, setProfile] = useState({
         user_id: "",
-        username: "",
         first_name: "",
         last_name: "",
         email: "",
@@ -39,7 +38,6 @@ export function Perfil() {
                 setProfile(prevProfile => ({
                     ...prevProfile,
                     user_id: data.user__id,
-                    username: data.username,
                     first_name: data.first_name,
                     last_name: data.last_name,
                     email: data.email,
@@ -91,7 +89,6 @@ export function Perfil() {
         event.preventDefault();
         try {
             const updatedProfile = {
-                username: profile.username,
                 first_name: profile.first_name,
                 last_name: profile.last_name,
                 email: profile.email,
@@ -132,17 +129,6 @@ export function Perfil() {
         <div className="perfil-container">
             <h1>Actualizar Perfil</h1>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="username">Nombre de usuario:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={profile.username || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
                 <div className="form-group">
                     <label htmlFor="first_name">Nombre:</label>
                     <input
@@ -220,5 +206,3 @@ export function Perfil() {
 }
 
 export default Perfil;
-
-
