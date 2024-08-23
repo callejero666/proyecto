@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
-import { useAuth } from '../contexts/AuthContext';
-import SongList from './SongList';
-import {
-    CreateSongModal,
-    CreateArtistModal,
-    ArtistListModal,
-    UpdateSongModal,
-    FiltersModal
-} from './Modals'; // Importa los modales agrupados
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import {
+    ArtistListModal,
+    CreateArtistModal,
+    CreateSongModal,
+    FiltersModal,
+    UpdateSongModal
+} from './Modals';
 import './Musica.css';
+import SongList from './SongList';
 
 export function Musica() {
     const [songs, setSongs] = useState([]);
@@ -42,8 +42,6 @@ export function Musica() {
         updated_at_max: '',
         owner: '',
         ordering: '',
-        page: 1,
-        page_size: 10
     });
     const [showFiltersModal, setShowFiltersModal] = useState(false);
     const navigate = useNavigate();
@@ -58,6 +56,7 @@ export function Musica() {
             let url = `${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?page=${page}&page_size=10`;
 
             if (query) url += `&title=${encodeURIComponent(query)}`;
+            
             Object.entries(filters).forEach(([key, value]) => {
                 if (value) url += `&${key}=${encodeURIComponent(value)}`;
             });
@@ -75,12 +74,24 @@ export function Musica() {
             const data = await response.json();
             setSongs(data.results);
             setTotalPages(Math.ceil(data.count / 10));
+            setCurrentPage(page);
             setLoading(false);
         } catch (error) {
             setError(error);
             setLoading(false);
             alert("Error al cargar las canciones. Inténtalo de nuevo.");
         }
+    };
+
+    const handleApplyFilters = (newFilters) => {
+        setFilters(newFilters);
+        setCurrentPage(1);
+        fetchSongs(1, searchQuery);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        fetchSongs(newPage, searchQuery);
     };
 
     const handleCreateSong = (newSong) => setSongs(prev => [newSong, ...prev]);
@@ -133,7 +144,7 @@ export function Musica() {
                 songs={songs}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={setCurrentPage}
+                onPageChange={handlePageChange}
                 onDeleteSong={handleDeleteSong}
                 onSelectSong={setSelectedSong}
                 onPlaySong={setCurrentSong}
@@ -173,11 +184,11 @@ export function Musica() {
             {showFiltersModal && (
                 <FiltersModal
                     filters={filters}
-                    setFilters={setFilters}
+                    setFilters={handleApplyFilters}
                     onClose={() => setShowFiltersModal(false)}
-                    onApplyFilters={() => { fetchSongs(1); setShowFiltersModal(false); }}
                 />
             )}
         </section>
     );
 }
+
