@@ -2,12 +2,8 @@
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4); /* Fondo oscuro con algo de transparencia */
+    backdrop-filter: blur(10px); /* Efecto de vidrio esmerilado */
 }
 
 .search-bar {
@@ -18,16 +14,14 @@
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #000000;
+    border: 1px solid #000000; /* Borde negro */
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #000000;
+    background: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+    color: #000000; /* Texto negro */
 }
 
 .song-list {
     margin-bottom: 20px;
-    flex: 1;
-    overflow-y: auto;
 }
 
 .song-list ul {
@@ -36,15 +30,39 @@
 }
 
 .song-list li {
+    display: flex;
+    justify-content: space-between; /* Espacio entre el texto y los botones */
+    align-items: center; /* Asegura que los botones estén alineados verticalmente */
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    color: #000000;
+    background: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+    color: #000000; /* Texto negro */
 }
 
-.song-list li:hover {
-    background-color: #e0f7fa;
+.song-list li button {
+    margin: 0 3px; /* Espaciado más pequeño entre los botones */
+    padding: 4px 6px; /* Botones aún menos extensos horizontalmente */
+    font-size: 12px; /* Tamaño de fuente reducido para mayor compactación */
+    background-color: rgba(26, 26, 26, 0.7); /* Fondo negro con transparencia */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid transparent; /* Borde inicial transparente */
+    border-radius: 4px; /* Borde redondeado */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.25s ease;
+}
+
+.song-list li button:hover {
+    background-color: #0088cc; /* Celeste más oscuro al pasar el mouse */
+    border-color: #00aaff; /* Celeste oscuro para el borde al hacer hover */
+}
+
+.song-list li button:last-child {
+    background-color: rgba(244, 67, 54, 0.8); /* Rojo translúcido para el botón de eliminar */
+}
+
+.song-list li button:last-child:hover {
+    background-color: #d32f2f; /* Rojo más oscuro al pasar el mouse */
 }
 
 .pagination-controls {
@@ -70,14 +88,14 @@
     font-size: 16px;
     border: none;
     border-radius: 4px;
-    background-color: #00aaff;
-    color: #ffffff;
+    background-color: #00aaff; /* Celeste oscuro */
+    color: #ffffff; /* Blanco para el texto */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .creation-buttons button:hover {
-    background-color: #0088cc;
+    background-color: #0088cc; /* Color más oscuro al pasar el mouse */
 }
 
 .modal {
@@ -94,21 +112,21 @@
 }
 
 .modal-content {
-    background-color: rgba(0, 0, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 255, 0.2); /* Fondo azul translúcido */
+    backdrop-filter: blur(10px); /* Efecto de vidrio esmerilado */
     padding: 15px;
     border-radius: 5px;
     max-width: 400px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    color: #ffffff;
+    color: #ffffff; /* Texto blanco para el contraste */
 }
 
 .modal-content h2 {
     margin-top: 0;
     font-size: 1.5rem;
-    color: #ffffff;
+    color: #ffffff; /* Blanco para contraste */
 }
 
 .modal-content input,
@@ -117,10 +135,10 @@
     padding: 10px;
     margin-bottom: 10px;
     font-size: 16px;
-    border: 1px solid #000000;
+    border: 1px solid #000000; /* Borde negro */
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #000000;
+    background: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+    color: #000000; /* Texto negro */
 }
 
 .modal-content button {
@@ -130,23 +148,23 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #00aaff;
+    background-color: #00aaff; /* Celeste oscuro para los botones */
     color: white;
     transition: background-color 0.3s ease;
 }
 
 .modal-content button:hover {
-    background-color: #0088cc;
+    background-color: #0088cc; /* Celeste más oscuro al pasar el mouse */
 }
 
 .modal-content button:last-child {
-    background-color: #f44336;
+    background-color: #f44336; /* Rojo para el botón de cancelación */
     margin-left: 10px;
 }
 
 .filter-button {
-    background-color: #808080;
-    color: #00aaff;
+    background-color: #808080; /* Gris */
+    color: #00aaff; /* Celeste oscuro */
     padding: 5px 10px;
     font-size: 0.8em;
     border: none;
@@ -156,24 +174,17 @@
 }
 
 .filter-button.active {
-    background-color: #00aaff;
+    background-color: #00aaff; /* Celeste oscuro para el botón activo */
     color: white;
 }
 
-.song-list li button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    background-color: #00aaff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.filter-scroll-area {
+    max-height: calc(80vh - 120px);
+    overflow-y: auto;
 }
 
-.song-list li button:hover {
-    background-color: #0088cc;
-}
-
-.song-list li button:last-child {
-    background-color: #f44336;
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
 }
