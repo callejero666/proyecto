@@ -60,16 +60,16 @@ export function Musica() {
     });
 
     useEffect(() => {
-        fetchSongs(currentPage, searchQuery);
+        fetchSongs();
     }, [currentPage, searchQuery, filters]);
 
-    const fetchSongs = async (page, query = '') => {
+    const fetchSongs = async () => {
         setLoading(true);
         try {
-            let url = `${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?page=${page}&page_size=10`;
+            let url = `${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/?page=${currentPage}&page_size=10`;
 
-            if (query) {
-                url += `&title=${encodeURIComponent(query)}`;
+            if (searchQuery) {
+                url += `&title=${encodeURIComponent(searchQuery)}`;
             }
 
             // Añadir filtros a la URL
@@ -94,12 +94,12 @@ export function Musica() {
             const data = await response.json();
             setSongs(data.results);
             setTotalPages(Math.ceil(data.count / 10));
-            setLoading(false);
         } catch (error) {
             console.error('Error en fetchSongs:', error); // Para depuración
             setError(error);
-            setLoading(false);
             alert("Error al cargar las canciones. Inténtalo de nuevo.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -213,15 +213,21 @@ export function Musica() {
     };
 
     const handlePageChange = (direction) => {
+        let newPage;
         if (direction === 'next' && currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            newPage = currentPage + 1;
         } else if (direction === 'prev' && currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            newPage = currentPage - 1;
+        } else {
+            return;
         }
+        setCurrentPage(newPage);
+        fetchSongs(newPage);
     };
 
     const handleFilterChange = (key, value) => {
         setFilters(prevFilters => ({...prevFilters, [key]: value}));
+        fetchSongs(1, searchQuery);
 
     };
 
@@ -275,14 +281,19 @@ export function Musica() {
                     <ul>
                         {songs.map(song => (
                             <li key={song.id}>
-                                <strong>{song.title}</strong> - {song.year}
-                                <button onClick={() => setCurrentSong(song)}>Reproducir</button>
-                                <button onClick={() => { setSelectedSong(song); toggleUpdateSongModal(); }}>Editar</button>
-                                <button onClick={() => handleDeleteSong(song.id)}>Eliminar</button>
+                                <div className="song-info">
+                                    <strong>{song.title}</strong> - {song.year}
+                                </div>
+                                <div className="song-buttons">
+                                    <button onClick={() => setCurrentSong(song)}>Reproducir</button>
+                                    <button onClick={() => { setSelectedSong(song); toggleUpdateSongModal(); }}>Editar</button>
+                                    <button onClick={() => handleDeleteSong(song.id)}>Eliminar</button>
+                                </div>
                             </li>
                         ))}
                     </ul>
                 )}
+                
                 <div className="pagination-controls">
                     <button onClick={goToFirstPage} disabled={currentPage === 1}>
                     Pag 1
