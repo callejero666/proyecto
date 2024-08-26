@@ -9,7 +9,7 @@ import { NotFound } from './componentes/NotFound';
 import { Perfil } from './componentes/Perfil';
 import { Principal } from './componentes/Principal';
 import { Registro } from './componentes/Registro';
-import { Playlists } from './componentes/Playlists'; // Importa el componente Playlists
+
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './componentes/ProtectedRoute'; // Importa el componente ProtectedRoute
 
@@ -59,7 +59,7 @@ function AppContent() {
                 <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
                 <Route path="/musica" element={<ProtectedRoute><Musica /></ProtectedRoute>} />
                 <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
-                <Route path="/playlists" element={<ProtectedRoute><Playlists /></ProtectedRoute>} />
+                
                 
                 {/* Ruta para páginas no encontradas */}
                 <Route path="*" element={<NotFound />} />
