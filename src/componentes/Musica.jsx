@@ -21,7 +21,7 @@ export function Musica() {
         id: '',
         title: '',
         year: '',
-        album: '',
+        //album: '',
         song_file: null
     });
     const [newArtist, setNewArtist] = useState({
@@ -38,7 +38,7 @@ export function Musica() {
         id: '',
         title: '',
         year: '',
-        album: ''
+        //album: ''
     });
 
     const [filters, setFilters] = useState({
@@ -110,7 +110,7 @@ export function Musica() {
             const formData = new FormData();
             formData.append('title', newSong.title);
             if (newSong.year) formData.append('year', newSong.year);
-            if (newSong.album) formData.append('album', newSong.album);
+            //if (newSong.album) formData.append('album', newSong.album);
             if (newSong.song_file) formData.append('song_file', newSong.song_file);
 
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
@@ -341,13 +341,13 @@ export function Musica() {
                             onChange={(e) => setNewSong({ ...newSong, year: e.target.value })}
                             placeholder="Año de lanzamiento"
                         />
-                        <input
+                        {/*<input
                             type="number"
                             name="album"
                             value={newSong.album}
                             onChange={(e) => setNewSong({ ...newSong, album: e.target.value })}
                             placeholder="ID del álbum"
-                        />
+                        />*/}
                         <input
                             type="file"
                             accept=".mp3"
