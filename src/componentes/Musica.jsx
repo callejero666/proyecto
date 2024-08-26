@@ -18,7 +18,7 @@ export function Musica() {
 
 
     const [newSong, setNewSong] = useState({
-        id: '',
+
         title: '',
         year: '',
         album: '',
@@ -35,7 +35,6 @@ export function Musica() {
     const [showArtistListModal, setShowArtistListModal] = useState(false);
     const [showUpdateSongModal, setShowUpdateSongModal] = useState(false);
     const [selectedSong, setSelectedSong] = useState({
-        id: '',
         title: '',
         year: '',
         album: ''
@@ -346,7 +345,6 @@ export function Musica() {
                             name="album"
                             value={newSong.album}
                             onChange={(e) => setNewSong({ ...newSong, album: e.target.value })}
-                            placeholder="ID del álbum"
                         />
                         <input
                             type="file"
