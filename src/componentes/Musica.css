@@ -48,8 +48,10 @@
 .song-list li .song-buttons {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: center
 }
+
+
 
 .song-list li button {
     width: 2.5cm;

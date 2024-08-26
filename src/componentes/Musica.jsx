@@ -21,7 +21,7 @@ export function Musica() {
         id: '',
         title: '',
         year: '',
-        album: '',
+        //album: '',
         song_file: null
     });
     const [newArtist, setNewArtist] = useState({
@@ -38,7 +38,7 @@ export function Musica() {
         id: '',
         title: '',
         year: '',
-        album: ''
+        //album: ''
     });
 
     const [filters, setFilters] = useState({
@@ -110,7 +110,7 @@ export function Musica() {
             const formData = new FormData();
             formData.append('title', newSong.title);
             if (newSong.year) formData.append('year', newSong.year);
-            if (newSong.album) formData.append('album', newSong.album);
+            //if (newSong.album) formData.append('album', newSong.album);
             if (newSong.song_file) formData.append('song_file', newSong.song_file);
 
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
@@ -165,7 +165,7 @@ export function Musica() {
         if (!selectedSong) return;
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/${selectedSong.id}/`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -352,13 +352,13 @@ export function Musica() {
                             onChange={(e) => setNewSong({ ...newSong, year: e.target.value })}
                             placeholder="Año de lanzamiento"
                         />
-                        <input
+                        {/*<input
                             type="number"
                             name="album"
                             value={newSong.album}
                             onChange={(e) => setNewSong({ ...newSong, album: e.target.value })}
                             placeholder="ID del álbum"
-                        />
+                        />*/}
                         <input
                             type="file"
                             accept=".mp3"
@@ -442,13 +442,13 @@ export function Musica() {
                             onChange={(e) => setSelectedSong({ ...selectedSong, year: e.target.value })}
                             placeholder="Año de lanzamiento"
                         />
-                        <input
+                        {/*<input
                             type="number"
                             name="album"
                             value={selectedSong.album || ''}
                             onChange={(e) => setSelectedSong({ ...selectedSong, album: e.target.value })}
                             placeholder="ID del álbum"
-                        />
+                        />*/}
                         <button onClick={handleUpdateSong}>Actualizar Canción</button>
                         <button onClick={toggleUpdateSongModal}>Cerrar</button>
                     </div>
