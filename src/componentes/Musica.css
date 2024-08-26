@@ -32,11 +32,11 @@
 .song-list li {
     display: flex;
     justify-content: space-between; /* Espacio entre el texto y los botones */
-    align-items: center; /* Asegura que los botones estén alineados verticalmente */
+    align-items:center; /* Asegura que los botones estén alineados verticalmente */
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+    background: rgb(250, 247, 247); /* Fondo blanco translúcido */
     color: #000000; /* Texto negro */
 }
 
@@ -137,7 +137,7 @@
     font-size: 16px;
     border: 1px solid #000000; /* Borde negro */
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.2); /* Fondo blanco translúcido */
+    background: rgba(179, 138, 138, 0.2); /* Fondo blanco translúcido */
     color: #000000; /* Texto negro */
 }
 

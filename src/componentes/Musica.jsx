@@ -165,7 +165,7 @@ export function Musica() {
         if (!selectedSong) return;
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/${selectedSong.id}/`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
