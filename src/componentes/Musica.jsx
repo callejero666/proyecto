@@ -163,19 +163,25 @@ export function Musica() {
 
     const handleUpdateSong = async () => {
         if (!selectedSong) return;
-
+    
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/${selectedSong.id}/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Token ${state.token}`
                 },
-                body: JSON.stringify(selectedSong)
+                body: JSON.stringify({
+                    title: selectedSong.title,
+                    year: selectedSong.year,
+                    album: selectedSong.album
+                })
             });
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+    
             const updatedSong = await response.json();
             setSongs(prev => prev.map(song => song.id === updatedSong.id ? updatedSong : song));
             alert("Canción actualizada exitosamente.");
@@ -185,6 +191,7 @@ export function Musica() {
             alert("Error al actualizar la canción. Inténtalo de nuevo.");
         }
     };
+    
 
     const handleDeleteSong = async (id) => {
         if (!window.confirm("¿Estás seguro de que quieres eliminar esta canción?")) return;
@@ -225,11 +232,11 @@ export function Musica() {
         fetchSongs(newPage);
     };
 
-    const handleFilterChange = (key, value) => {
+    /*const handleFilterChange = (key, value) => {
         setFilters(prevFilters => ({...prevFilters, [key]: value}));
         fetchSongs(1, searchQuery);
 
-    };
+    };*/
 
 
     const goToFirstPage = () => {
@@ -261,14 +268,14 @@ export function Musica() {
             </div>
 
 
-            <div className="advanced-filters">
+            {/*<div className="advanced-filters">
                 <button
                     onClick={() => setShowFiltersModal(true)}
                     className={`filter-button ${Object.values(filters).some(v => v !== '') ? 'active' : ''}`}
                 >
                     Filtros avanzados {Object.values(filters).some(v => v !== '') ? '(activos)' : ''}
                 </button>
-            </div>
+            </div>*/}
 
             {loading && <p>Cargando canciones...</p>}
             {error && <p>Error: {error.message}</p>}
@@ -455,7 +462,7 @@ export function Musica() {
                 </div>
             )}
 
-            {showFiltersModal && (
+            {/*showFiltersModal && (
                 <div className="modal">
                     <div className="modal-content">
                         <h2>Filtros avanzados</h2>
@@ -496,7 +503,7 @@ export function Musica() {
                         </div>
                     </div>
                 </div>
-            )}
+                        )*/}
         </section>
     );
 }
