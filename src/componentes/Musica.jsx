@@ -431,13 +431,13 @@ export function Musica() {
                             onChange={(e) => setSelectedSong({ ...selectedSong, year: e.target.value })}
                             placeholder="Año de lanzamiento"
                         />
-                        <input
+                        {/*<input
                             type="number"
                             name="album"
                             value={selectedSong.album || ''}
                             onChange={(e) => setSelectedSong({ ...selectedSong, album: e.target.value })}
                             placeholder="ID del álbum"
-                        />
+                        />*/}
                         <button onClick={handleUpdateSong}>Actualizar Canción</button>
                         <button onClick={toggleUpdateSongModal}>Cerrar</button>
                     </div>
